@@ -19,16 +19,10 @@ type t_params = {margin : int ; cell_size : int ; grid_size : int ; window_width
 (** la fonction initialise nos paramètres
 @author Sarah Favre
 @author Marius Roumy
-@param p_margin marge autour des grilles
-@param p_cell_size taille des cases
-@param p_grid_size nombres de cases par côté
-@param p_window_width largeur totale de la fenêtre
-@param p_window_height hauteur totale de la fenêtre
-@param p_message_size taille des caractères
 @return t_params
 *)
-let init_params(p_margin, p_cell_size, p_grid_size, p_window_width, p_window_height, p_message_size : int * int * int * int * int * int): t_params =
-()
+let init_params(): t_params =
+     {margin = 30 ; cell_size = 15 ; grid_size = 10 ; window_width = 1000 ; window_height = 1000; message_size = 60 }
 ;;
 
 (**la fonction permet d'afficher les deux grilles vides et le nom des deux joueurs

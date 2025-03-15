@@ -10,7 +10,7 @@ let wait(n : int) : unit =
  Unix.sleep(n)
 ;;
 
-
+open_graph(1000, 1000)
 
 (* ------------------------ *)
 (*        graphique         *)
