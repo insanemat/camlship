@@ -8,15 +8,18 @@
 *)
 let test_fonc_1_init_params_margin () : unit =
     let l_res : t_params t_test_result = test_exec (init_params (), "Marge à 30 pixels", (30, 0, 0, 0, 0, 0)) in
-    assert_equals l_res.margin 30
+    assert_equals (l_res.margin, 30)
 ;;
+
 
 (** Vérifie si la grille est égale à 15 
     @author Anne Celia Mensah 
     @author Maël ICAPI
     @return unit
 *)
-let test_fonc_1_init_params_cell_size () : unit = ()
+let test_fonc_1_init_params_cell_size () : unit =
+    let l_res : t_params t_test_result = test_exec (init_params (), "Taille d'une case à 15 pixels", (30, 15, 0, 0, 0, 0)) in
+    assert_equals (l_res.cell_size, 15)
 ;;
 
 (** Vérifie si la hauteur de la zone est égale à 60 pixels matérialisés en bleu 

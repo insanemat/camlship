@@ -28,7 +28,7 @@ type t_params = {margin : int ; cell_size : int ; grid_size : int ; window_width
 @return t_params
 *)
 let init_params(p_margin, p_cell_size, p_grid_size, p_window_width, p_window_height, p_message_size : int * int * int * int * int * int): t_params =
-
+()
 ;;
 
 (**la fonction permet d'afficher les deux grilles vides et le nom des deux joueurs
@@ -38,7 +38,7 @@ let init_params(p_margin, p_cell_size, p_grid_size, p_window_width, p_window_hei
 @return unit
 *)
 let display_empty_grids(p_params : t_params): unit =
-
+()
 ;;
 
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre
@@ -54,5 +54,5 @@ et effectuer les affichages adéquates.
 @return unit
 *)
 let battleship_game(p_margin, p_cell_size, p_grid_size, p_window_width, p_window_height, p_message_size : int * int * int * int * int * int): unit =
-
+()
 ;;
