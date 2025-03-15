@@ -45,6 +45,14 @@ let display_empty_grids(p_params : t_params): unit =
 et effectuer les affichages adéquates.
 @author Sarah Favre
 @author Marius Roumy
+@param p_margin marge autour des grilles
+@param p_cell_size taille des cases
+@param p_grid_size nombres de cases par côté
+@param p_window_width largeur totale de la fenêtre
+@param p_window_height hauteur totale de la fenêtre
+@param p_message_size taille des caractères
 @return unit
 *)
-let battleship_game(): unit =
+let battleship_game(p_margin, p_cell_size, p_grid_size, p_window_width, p_window_height, p_message_size : int * int * int * int * int * int): unit =
+
+;;
