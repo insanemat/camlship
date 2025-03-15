@@ -1,65 +1,69 @@
 #use "CPtest.ml";;
+#use "battleship.ml";;
 
-(**@author Anne Celia Mensah 
-@author Maël ICAPI
-@return unit
-
-Vérifie si la marge est égale a 30 pixels 
-    *)
-test_fonc_1_init_params_margin(): unit =
+(** Vérifie si la marge est égale à 30 pixels 
+    @author Anne Celia Mensah 
+    @author Maël ICAPI
+    @return unit
+*)
+let test_fonc_1_init_params_margin () : unit =
+    let l_res : t_params t_test_result = test_exec (init_params (), "Marge à 30 pixels", (30, 0, 0, 0, 0, 0)) in
+    assert_equals l_res.margin 30
 ;;
 
-(**@author Anne Celia Mensah 
-@author Maël ICAPI
-@return unit
-Vérifie si la grille est égale a 15
-    *)
-    test_fonc_1_init_params_cell_size(): unit =
+(** Vérifie si la grille est égale à 15 
+    @author Anne Celia Mensah 
+    @author Maël ICAPI
+    @return unit
+*)
+let test_fonc_1_init_params_cell_size () : unit = ()
 ;;
 
-(**@author Anne Celia Mensah 
-@author Maël ICAPI
-@return unit
-
-Vérifie si la hauteur de la zonz est égale a 60 pixels matérialiés en bleu
-    *)
-    test_fonc_1_init_params_message_size(): unit =
-  ;;
-
-  (**@author Anne Celia Mensah 
-@author Maël ICAPI
-@return unit
-Vérifie si les 2 grilles ont 10 cases 
-    *)
-test_fonc_1_init_params_grid_size(): unit =
+(** Vérifie si la hauteur de la zone est égale à 60 pixels matérialisés en bleu 
+    @author Anne Celia Mensah 
+    @author Maël ICAPI
+    @return unit
+*)
+let test_fonc_1_init_params_message_size () : unit = ()
 ;;
 
-(**@author Anne Celia Mensah 
-@author Maël ICAPI
-@return unit
-Vérifie si la fenetre est bien ouverte *)
- test_fonc_battleship_game_open_graph():unit=
-
- (**@author Anne Celia Mensah 
-@author Maël ICAPI
-@return unit
------------
-    *)
-    test_fonc_battleship_set_window_title():unit=
+(** Vérifie si les 2 grilles ont 10 cases 
+    @author Anne Celia Mensah 
+    @author Maël ICAPI
+    @return unit
+*)
+let test_fonc_1_init_params_grid_size () : unit = ()
 ;;
 
-
-  (**Vérifie si la fenetre soit de la bonne taille
-@author Anne Celia Mensah 
-@author Maël ICAPI 
-@return unit  *)
-    test_fonc_battleship_size_x():unit=
+(** Vérifie si la fenêtre est bien ouverte 
+    @author Anne Celia Mensah 
+    @author Maël ICAPI
+    @return unit
+*)
+let test_fonc_battleship_game_open_graph () : unit = ()
 ;;
 
-(** Vérifie si la fenetre soit de la bonne taille
-@author Anne Celia Mensah 
-@author Maël ICAPI 
-@return unit
-    *)
-    test_fonc_battleship_size_y():unit=
+(** Faut-il tester le nom de la fonction ? 
+    @author Anne Celia Mensah 
+    @author Maël ICAPI
+    @return unit
+*)
+let test_fonc_battleship_set_window_title () : unit = ()
 ;;
+
+(** Vérifie si la fenêtre est de la bonne taille (X) 
+    @author Anne Celia Mensah 
+    @author Maël ICAPI 
+    @return unit
+*)
+let test_fonc_battleship_size_x () : unit = ()
+;;
+
+(** Vérifie si la fenêtre est de la bonne taille (Y) 
+    @author Anne Celia Mensah 
+    @author Maël ICAPI 
+    @return unit
+*)
+let test_fonc_battleship_size_y () : unit = ()
+;;
+
