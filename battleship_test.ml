@@ -7,7 +7,7 @@
     @return unit
 *)
 let test_fonc_1_init_params_margin () : unit =
-    let l_res : t_params t_test_result = test_exec (init_params (), "Marge à 30 pixels", (30, 0, 0, 0, 0, 0)) in
+    let l_res : t_params t_test_result = test_exec (init_params(), "Marge à 30 pixels", (30, 0, 0, 0, 0, 0)) in
     assert_equals (l_res.margin, 30)
 ;;
 
@@ -43,7 +43,8 @@ let test_fonc_1_init_params_grid_size () : unit = ()
     @author Maël ICAPI
     @return unit
 *)
-let test_fonc_battleship_game_open_graph () : unit = ()
+let test_fonc_battleship_game_open_graph () : unit =
+()
 ;;
 
 (** Faut-il tester le nom de la fonction ? 
