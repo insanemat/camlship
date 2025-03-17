@@ -24,7 +24,7 @@ type t_params = {margin : int ; cell_size : int ; grid_size : int ; window_width
 @return t_params
 *)
 let init_params(): t_params =
-   let p_params : t_params = {margin = 30 ; cell_size = 15 ; grid_size = 10 ; window_width = 1000 ; window_height = 1000; message_size = 60 } in
+   let p_params : t_params = {margin = 30 ; cell_size = 15 ; grid_size = 10 ; window_width = 670 ; window_height = 390; message_size = 60 } in
    p_params
 ;;
 
@@ -35,8 +35,14 @@ let init_params(): t_params =
 @return unit
 *)
 let display_empty_grids(p_params : t_params): unit =
-()
-;;
+open_graph(p_params.window_width, p_params.window_height) ; (*Fentre d'origine*)
+draw_rect(p_params.margin, p_params.margin, p_params.window_width - (2 * p_params.margin), p_params.window_height - (2 * p_params.margin)); (*fenêtre principal, en rouge sur le PDF, contenant toutes les autres fenêtres du jeu*)
+draw_rect((p_params.window_width - (2 * p_params.margin))/2 - (p_params.margin / 2), p_params.margin + p_params.message_size, p_params.margin, (
+     p_params.window_width - (2 * p_params.margin)) - p_params.margin - p_params.message_size);(*fenêtre qui sépare les deux fenêtres contenant les plateaux de jeu, en rouge sur le pdf *)
+;; 
+
+close_graph() ;;
+display_empty_grids(init_params()) ;;
 
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre
 et effectuer les affichages adéquates.
