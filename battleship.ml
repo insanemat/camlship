@@ -24,7 +24,8 @@ type t_params = {margin : int ; cell_size : int ; grid_size : int ; window_width
 @return t_params
 *)
 let init_params(): t_params =
-     {margin = 30 ; cell_size = 15 ; grid_size = 10 ; window_width = 1000 ; window_height = 1000; message_size = 60 }
+   let p_params : t_params = {margin = 30 ; cell_size = 15 ; grid_size = 10 ; window_width = 1000 ; window_height = 1000; message_size = 60 } in
+   p_params
 ;;
 
 (**la fonction permet d'afficher les deux grilles vides et le nom des deux joueurs
