@@ -7,6 +7,8 @@
 @version 1.0
 *)
 
+#use "CPgraphics.ml" ;;
+
 (** Le type t_params est le type structuré pour nos paramètre
 @author Sarah Favre
 @author Marius Roumy
