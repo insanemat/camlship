@@ -61,7 +61,7 @@ draw_rect(
         
 ;; 
 
-display_empty_grids(init_params()) ;;
+
 
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre
 et effectuer les affichages adéquates.
