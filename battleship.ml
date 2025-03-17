@@ -35,13 +35,32 @@ let init_params(): t_params =
 @return unit
 *)
 let display_empty_grids(p_params : t_params): unit =
-open_graph(p_params.window_width, p_params.window_height) ; (*Fentre d'origine*)
-draw_rect(p_params.margin, p_params.margin, p_params.window_width - (2 * p_params.margin), p_params.window_height - (2 * p_params.margin)); (*fenêtre principal, en rouge sur le PDF, contenant toutes les autres fenêtres du jeu*)
-draw_rect((p_params.window_width - (2 * p_params.margin))/2 - (p_params.margin / 2), p_params.margin + p_params.message_size, p_params.margin, (
-     p_params.window_width - (2 * p_params.margin)) - p_params.margin - p_params.message_size);(*fenêtre qui sépare les deux fenêtres contenant les plateaux de jeu, en rouge sur le pdf *)
+open_graph(
+     p_params.window_width, 
+     p_params.window_height) ; (*Fenêtre d'origine*)
+draw_rect(
+     p_params.margin, 
+     p_params.margin, 
+     p_params.window_width - (2 * p_params.margin), 
+     p_params.window_height - (2 * p_params.margin)); (*fenêtre principal, en rouge sur le PDF, contenant toutes les autres fenêtres du jeu*)
+draw_rect(
+     (p_params.window_width / 2) - (p_params.margin / 2),  
+     p_params.margin + p_params.message_size + p_params.cell_size, 
+     p_params.margin,  
+     p_params.window_height - 2 * p_params.margin - 2 * p_params.cell_size - p_params.message_size);(*Rectangle qui sépare les deux grilles de jeu, en rouge sur le pdf*)
+draw_rect(
+     p_params.margin,  
+     p_params.margin, 
+     p_params.window_width - 2 * p_params.margin,  
+     p_params.message_size ); (*Rectangle contenant les messages du jeu, en bleu sur le pdf*)
+draw_rect(
+     p_params.margin, 
+     p_params.margin + p_params.message_size - p_params.cell_size,  
+     p_params.window_width - 2 * p_params.margin, 
+     p_params.cell_size); (*rectangle vert contenu dans le rectangle bleu*)
+        
 ;; 
 
-close_graph() ;;
 display_empty_grids(init_params()) ;;
 
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre

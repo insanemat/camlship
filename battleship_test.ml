@@ -1,7 +1,7 @@
 #use "CPtest.ml";;
 #use "battleship.ml";;
 
-(** Vérifie si la marge est égale à 30 pixels 
+(** Vérifie si les paramètres de création de la fenêtres sont conformes à la spécification, le test levera une erreur le cas échéant
     @author Anne Celia Mensah 
     @author Maël ICAPI
     @return unit
@@ -26,38 +26,6 @@ test_fonc_1_init_params ();;
 test_report();;
 test_reset_report();;
 
-
-
-
-(** Vérifie si la grille est égale à 15 
-    @author Anne Celia Mensah 
-    @author Maël ICAPI
-    @return unit
-*)
-let test_fonc_1_init_params_cell_size () : unit =
-    let l_res : t_params t_test_result = test_exec (init_params, "Taille d'une case à 15 pixels", ()) in
-    assert_equals (l_res.cell_size, 15)
-;;
-
-(** Vérifie si la hauteur de la zone est égale à 60 pixels matérialisés en bleu 
-    @author Anne Celia Mensah 
-    @author Maël ICAPI
-    @return unit
-*)
-let test_fonc_1_init_params_message_size () : unit = 
-    let l_res : t_params t_test_result = test_exec ( init_params , " La hauteur de la zonz 60 pixelss", ())in
-assert_equals ( l_res.message_size, 60)
-;;
-
-(** Vérifie si les 2 grilles ont 10 cases 
-    @author Anne Celia Mensah 
-    @author Maël ICAPI
-    @return unit
-*)
-let test_fonc_1_init_params_grid_size () : unit = 
-    let l_res : t_params t_test_result = test_exec ( init_params , "Deux grilles de 10 cases",())in
-assert_equals( l_res.grid_size,10)
-;;
 
 (** Vérifie si la fenêtre est bien ouverte 
     @author Anne Celia Mensah 
