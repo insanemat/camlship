@@ -34,33 +34,80 @@ let init_params(): t_params =
 @param p_params nos paramètres 
 @return unit
 *)
-let display_empty_grids(p_params : t_params): unit =
-open_graph(
-     p_params.window_width, 
-     p_params.window_height) ; (*Fenêtre d'origine*)
-draw_rect(
-     p_params.margin, 
-     p_params.margin, 
-     p_params.window_width - (2 * p_params.margin), 
-     p_params.window_height - (2 * p_params.margin)); (*fenêtre principal, en rouge sur le PDF, contenant toutes les autres fenêtres du jeu*)
-draw_rect(
-     (p_params.window_width / 2) - (p_params.margin / 2),  
-     p_params.margin + p_params.message_size + p_params.cell_size, 
-     p_params.margin,  
-     p_params.window_height - 2 * p_params.margin - 2 * p_params.cell_size - p_params.message_size);(*Rectangle qui sépare les deux grilles de jeu, en rouge sur le pdf*)
-draw_rect(
-     p_params.margin,  
-     p_params.margin, 
-     p_params.window_width - 2 * p_params.margin,  
-     p_params.message_size ); (*Rectangle contenant les messages du jeu, en bleu sur le pdf*)
-draw_rect(
-     p_params.margin, 
-     p_params.margin + p_params.message_size - p_params.cell_size,  
-     p_params.window_width - 2 * p_params.margin, 
-     p_params.cell_size); (*rectangle vert contenu dans le rectangle bleu*)
-        
-;; 
-
+let display_empty_grids (p_params : t_params) : unit =
+     open_graph (p_params.window_width, p_params.window_height); (* Fenêtre d'origine *)
+   
+     draw_rect (
+       p_params.margin, 
+       p_params.margin, 
+       p_params.window_width - (2 * p_params.margin), 
+       p_params.window_height - (2 * p_params.margin)
+     ); (* Fenêtre principale, en rouge sur le PDF, contenant toutes les autres fenêtres du jeu *)
+   
+     draw_rect (
+       (p_params.window_width / 2) - (p_params.margin / 2),  
+       p_params.margin + p_params.message_size + p_params.cell_size, 
+       p_params.margin,  
+       p_params.window_height - 2 * p_params.margin - 2 * p_params.cell_size - p_params.message_size
+     ); (* Rectangle qui sépare les deux grilles de jeu, en rouge sur le PDF *)
+   
+     draw_rect (
+       p_params.margin,  
+       p_params.margin, 
+       p_params.window_width - 2 * p_params.margin,  
+       p_params.message_size
+     ); (* Rectangle contenant les messages du jeu, en bleu sur le PDF *)
+   
+     draw_rect (
+       p_params.margin, 
+       p_params.margin + p_params.message_size - p_params.cell_size,  
+       p_params.window_width - 2 * p_params.margin, 
+       p_params.cell_size
+     ); (* Rectangle vert contenu dans le rectangle bleu *)
+   
+     draw_rect (
+       p_params.margin,  
+       p_params.window_height - p_params.margin - p_params.cell_size - 
+       (p_params.grid_size * p_params.cell_size), 
+       p_params.window_width - 2 * p_params.margin,  
+       (p_params.grid_size * p_params.cell_size)  
+     );(*Rectangle vert collé au coté supérieur du rectangle principal rouge*)
+   
+     draw_rect (
+       p_params.margin,
+       p_params.margin + p_params.message_size,
+       p_params.cell_size,
+       (p_params.cell_size) * 16
+     ); (* Rectangle des chiffres du côté gauche *)
+   
+     draw_rect (
+       p_params.margin,
+       p_params.margin + p_params.message_size + (p_params.cell_size) * 16,
+       (p_params.cell_size) * 19,
+       p_params.cell_size
+     ); (* Rectangle des lettres du côté gauche *)
+   
+     (* Rectangle des chiffres du côté droit *)
+     draw_rect (
+       (p_params.window_width / 2) + (p_params.margin / 2), 
+       p_params.margin + p_params.message_size,  
+       p_params.cell_size,  
+       (p_params.cell_size) * 16  
+     );
+   
+     (* Rectangle des chiffres du côté gauche *)
+     draw_rect (
+       (p_params.window_width / 2) + (p_params.margin / 2),  
+       p_params.margin + p_params.message_size + (p_params.cell_size) * 16,  
+       (p_params.cell_size) * 19,  
+       p_params.cell_size  
+     );
+;;
+   
+close_graph();;
+   
+display_empty_grids (init_params());;
+   
 
 
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre
