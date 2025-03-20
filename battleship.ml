@@ -104,9 +104,7 @@ let display_empty_grids (p_params : t_params) : unit =
      );
 ;;
    
-close_graph();;
-   
-display_empty_grids (init_params());;
+
    
 
 
