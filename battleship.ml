@@ -31,6 +31,7 @@ let init_params(): t_params =
 (**la fonction permet d'afficher les deux grilles vides et le nom des deux joueurs
 @author Sarah Favre
 @author Marius Roumy
+@author Maêl Icapi
 @param p_params nos paramètres 
 @return unit
 *)
@@ -102,12 +103,22 @@ let display_empty_grids (p_params : t_params) : unit =
        (p_params.cell_size) * 19,  
        p_params.cell_size  
      );
+
+     
 ;;
    
+let test_graph(): unit =
+for i = 1 to 10 do 
+  draw_rect(
+  p_params.margin,
+  p_params.margin + p_params.message_size,
+  
+  )
 
-   
+open_graph(1000,1000);
 
-
+display_empty_grids(init_params()) ;;
+close_graph();;
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre
 et effectuer les affichages adéquates.
 @author Sarah Favre
