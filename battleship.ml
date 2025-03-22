@@ -107,18 +107,23 @@ let display_empty_grids (p_params : t_params) : unit =
      
 ;;
    
-let test_graph(): unit =
-for i = 1 to 10 do 
-  draw_rect(
-  p_params.margin,
+let test_graph(p_params : t_params): unit =
+for i = 1 to 10 do
+  for j = 1 to 10 do 
+draw_rect(
+  p_params.margin + p_params.cell_size * 2 *i - p_params.cell_size,
   p_params.margin + p_params.message_size,
-  
-  )
-
-open_graph(1000,1000);
+  p_params.cell_size * 2  ,
+  p_params.cell_size * 2 * j
+);
+  done;
+done;
+;;
+test_graph(init_params());;
 
 display_empty_grids(init_params()) ;;
 close_graph();;
+
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre
 et effectuer les affichages adéquates.
 @author Sarah Favre
