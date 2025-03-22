@@ -68,10 +68,9 @@ let display_empty_grids (p_params : t_params) : unit =
    
      draw_rect (
        p_params.margin,  
-       p_params.window_height - p_params.margin - p_params.cell_size - 
-       (p_params.grid_size * p_params.cell_size), 
+       p_params.window_height - p_params.margin - p_params.cell_size, 
        p_params.window_width - 2 * p_params.margin,  
-       (p_params.grid_size * p_params.cell_size)  
+       p_params.cell_size  
      );(*Rectangle vert collé au coté supérieur du rectangle principal rouge*)
    
      draw_rect (
@@ -111,10 +110,10 @@ let test_graph(p_params : t_params): unit =
 for i = 1 to 10 do
   for j = 1 to 10 do 
 draw_rect(
-  p_params.margin + p_params.cell_size * 2 *i - p_params.cell_size,
+  p_params.margin + (p_params.cell_size + 9 )*i,
   p_params.margin + p_params.message_size,
-  p_params.cell_size * 2  ,
-  p_params.cell_size * 2 * j
+  p_params.cell_size + 9 ,
+  (p_params.cell_size + 9) * j
 );
   done;
 done;
