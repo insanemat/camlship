@@ -24,7 +24,7 @@ type t_params = {margin : int ; cell_size : int ; grid_size : int ; window_width
 @return t_params
 *)
 let init_params(): t_params =
-   let p_params : t_params = {margin = 30 ; cell_size = 15 ; grid_size = 10 ; window_width = 670 ; window_height = 390; message_size = 60 } in
+   let p_params : t_params = {margin = 30 ; cell_size = 15 ; grid_size = 24 ; window_width = 670 ; window_height = 390; message_size = 60 } in
    p_params
 ;;
 
@@ -47,9 +47,9 @@ let display_empty_grids (p_params : t_params) : unit =
    
      draw_rect (
        (p_params.window_width / 2) - (p_params.margin / 2),  
-       p_params.margin + p_params.message_size + p_params.cell_size, 
+       p_params.margin + p_params.message_size, 
        p_params.margin,  
-       p_params.window_height - 2 * p_params.margin - 2 * p_params.cell_size - p_params.message_size
+       (p_params.window_height - 2 * p_params.margin - 2 * p_params.cell_size - p_params.message_size) + p_params.cell_size
      ); (* Rectangle qui sépare les deux grilles de jeu, en rouge sur le PDF *)
    
      draw_rect (
@@ -83,7 +83,7 @@ let display_empty_grids (p_params : t_params) : unit =
      draw_rect (
        p_params.margin,
        p_params.margin + p_params.message_size + (p_params.cell_size) * 16,
-       (p_params.cell_size) * 19,
+       ((p_params.cell_size) * 19) + 5,
        p_params.cell_size
      ); (* Rectangle des lettres du côté gauche *)
    
@@ -95,46 +95,50 @@ let display_empty_grids (p_params : t_params) : unit =
        (p_params.cell_size) * 16  
      );
    
-     (* Rectangle des chiffres du côté gauche *)
+     (* Rectangle des lettres du côté gauche *)
      draw_rect (
        (p_params.window_width / 2) + (p_params.margin / 2),  
        p_params.margin + p_params.message_size + (p_params.cell_size) * 16,  
-       (p_params.cell_size) * 19,  
+       ((p_params.cell_size) * 19) + 5,  
        p_params.cell_size  
      );
 
-     
-;;
-   
-let test_graph(p_params : t_params): unit =
-for i = 1 to 10 do
-  for j = 1 to 10 do 
-draw_rect( 
-  p_params.margin + (p_params.cell_size + 9 )*i,
-  p_params.margin + p_params.message_size,
-  p_params.cell_size + 9 ,
-  (p_params.cell_size + 9) * j
-);
-  done;
-done;
-;;
-test_graph(init_params());;
+     (* Grille de gauche*)
+     for i = 1 to 10 do
+      for j = 1 to 10 do 
+    draw_rect( 
+      p_params.margin + p_params.grid_size * i,
+      p_params.margin + p_params.message_size,
+      p_params.grid_size,
+      p_params.grid_size * j
+    )
+    ;
+      done;
+    done;
 
-display_empty_grids(init_params()) ;;
-close_graph();;
+    (* Grille de droite*)
+    for i = 1 to 10 do
+      for j = 1 to 10 do
+        draw_rect(
+          ((p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin) + p_params.grid_size * i,
+          p_params.margin + p_params.message_size,
+          p_params.grid_size,
+         p_params.grid_size * j
+    )
+    ;
+      done;
+    done; 
+;;
 
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre
 et effectuer les affichages adéquates.
 @author Sarah Favre
 @author Marius Roumy
-@param p_margin marge autour des grilles
-@param p_cell_size taille des cases
-@param p_grid_size nombres de cases par côté
-@param p_window_width largeur totale de la fenêtre
-@param p_window_height hauteur totale de la fenêtre
-@param p_message_size taille des caractères
 @return unit
 *)
-let battleship_game(p_margin, p_cell_size, p_grid_size, p_window_width, p_window_height, p_message_size : int * int * int * int * int * int): unit =
-()
+let battleship_game(): unit =
+let l_params : t_params = init_params() in
+display_empty_grids(l_params)
 ;;
+
+battleship_game() ;;
