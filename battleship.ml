@@ -109,7 +109,7 @@ let display_empty_grids (p_params : t_params) : unit =
 let test_graph(p_params : t_params): unit =
 for i = 1 to 10 do
   for j = 1 to 10 do 
-draw_rect(
+draw_rect( 
   p_params.margin + (p_params.cell_size + 9 )*i,
   p_params.margin + p_params.message_size,
   p_params.cell_size + 9 ,
