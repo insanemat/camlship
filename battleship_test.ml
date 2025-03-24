@@ -27,6 +27,56 @@ let test_fonc_display_empty_grids() : unit =
     assert_true(test_is_success(l_res))
 ;;
 
+(**fonction de test qui test un certain placement automatique des bateaux
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_auto_placing_ship_1(): unit =
+;;
+
+(**fonction de test qui test si le calcule de la liste des positions d’un bateau à placer est correct
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_positions_list(); unit =
+;;
+
+(**fonction de test qui test si la règle de placement voulu est bien respectée
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_can_place_ship(); unit =
+;;
+
+(**fonction de test qui test si les cases coloriées sont les bonnes, dans la bonne grille et de la bonne couleur
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+
+let test_fonc_display_grid(): unit =
+;;
+
+(**fonction de test qui test si la case coleriée est de la bonne couleur
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_color_cell(): unit =
+;;
+
+(**fonction de test qui test si la position du pixel demandé est la bonne
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_cell_to_pixel(): unit =
+;;
+
+
 test_fonc_init_params ();;
 test_report();;
 test_reset_report();;
