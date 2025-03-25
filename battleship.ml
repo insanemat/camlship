@@ -7,6 +7,8 @@
 @version 1.0
 *)
 
+open Random;;
+
 #use "CPgraphics.ml" ;;
 (**
 Détermine le type de bateau    
@@ -26,7 +28,7 @@ type t_grid = t_ship_size list * t_ship_size list;;
 (**
 Représentation d'un bateau : son type, la position de la première case en x et y, sa direction entre 1(horizon) et 2(vertical)   
 *)
-type t_ship = t_ship_type * int * int * int ;;
+type t_ship = {ship_type : t_ship_type; x : int ; y : int ; direction : int} ;;
 
 (** Le type t_params est le type structuré pour nos paramètre
 @author Sarah Favre
