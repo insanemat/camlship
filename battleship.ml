@@ -235,4 +235,4 @@ let l_params : t_params = init_params() in
 display_empty_grids(l_params)
 ;;
 
-battleship_game() ;;
+battleship_game();;
