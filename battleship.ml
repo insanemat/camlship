@@ -26,9 +26,9 @@ Matrice représentant une grille grille
 type t_grid = t_ship_size list * t_ship_size list;;
 
 (**
-Représentation d'un bateau : son type, la position de la première case en x et y, sa direction entre 1(horizon) et 2(vertical)   
+Représentation d'un bateau : son type, la position de la première case en x et y, sa direction entre 1(horizon) et 2(vertical) et sa taille   
 *)
-type t_ship = {ship_type : t_ship_type; x : int ; y : int ; direction : int} ;;
+type t_ship = {ship_type : t_ship_type; x : int ; y : int ; direction : int, size : int} ;;
 
 (** Le type t_params est le type structuré pour nos paramètre
 @author Sarah Favre
@@ -183,7 +183,7 @@ let generate_random_position(p_ship : t_ship) : t_ship =
   @param ship Le bateau dont on veut obtenir les positions.
   @return Une liste de positions représentant le bateau sur la grille.
 *)
-let positions_list(ship : t_ship) : t_ship list = 
+let positions_list(ship : t_ship) : int * int list = 
 ()
 ;;
 
@@ -192,11 +192,17 @@ let positions_list(ship : t_ship) : t_ship list =
   @param p_current_grid La grille actuelle avec les bateaux déjà placés.
   @param p_ship_to_place La liste des positions du bateau à placer.
   @return true si le bateau peut être placé, false sinon.
+  Le pattern matching est ici utilisé pour une meilleure lisibilité, si malgré les coms cela 
+  reste peu compréhensible je peux le faire en conditionnelle si nécéssaire
 *)
-let can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship list) : bool =
-()
+let rec can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship) : bool =
+  if positions_list(p_ship_to_place) = [](*Condition d'arrêt de la récursivité, si la liste de positions est vide*)
+    then true
+    else let (x, y) = List.hd(positions_list(p_ship_to_place)) in(*on crée ici des variables correspondant aux premières valeurs de la liste de positions*)
+        match  with (**)
+      | [] -> can_place_ship(p_current_grid, { p_ship_to_place with size = p_ship_to_place.size - 1 })(*On relance la fonction en réduisant de 1 la taille du bateau, on accède au champ "size" du type structuré grâce au mot clé "with"*)
+      | _ -> false  (* Si la case est occupée, impossible de placer le bateau *)
 ;;
-
 (**
   Place automatiquement tous les bateaux dans la grille en respectant les règles.
   @param p_grid La grille initiale.
@@ -206,6 +212,15 @@ let rec auto_placing_ships ( p_grid : t_grid ) : t_grid =
 ()
 ;;
 
+(**
+  Colorie une cellule spécifique dans l’une des grilles affichées.  
+  @param x Coordonnée x de la cellule dans la grille.  
+  @param y Coordonnée y de la cellule dans la grille.  
+  @param color La couleur à appliquer à la cellule.  
+*)  
+let color_cell (p_ship_x, p_ship_y, p_color : int * int * Graphics.color) : unit =  
+  ()  
+;; 
 
 
 
