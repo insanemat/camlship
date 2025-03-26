@@ -28,7 +28,7 @@ type t_grid = t_ship_size list * t_ship_size list;;
 (**
 Représentation d'un bateau : son type, la position de la première case en x et y, sa direction entre 1(horizon) et 2(vertical) et sa taille   
 *)
-type t_ship = {ship_type : t_ship_type; x : int ; y : int ; direction : int, size : int} ;;
+type t_ship = {ship_type : t_ship_type; x : int ; y : int ; direction : int ; size : int} ;;
 
 (** Le type t_params est le type structuré pour nos paramètre
 @author Sarah Favre
@@ -183,9 +183,20 @@ let generate_random_position(p_ship : t_ship) : t_ship =
   @param ship Le bateau dont on veut obtenir les positions.
   @return Une liste de positions représentant le bateau sur la grille.
 *)
-let positions_list(ship : t_ship) : int * int list = 
-()
+let rec positions_list(ship : t_ship) : (int * int) list = 
+  if ship.size <= 0 then []
+  else
+    let (x, y) = (ship.x, ship.y) in
+    let next_ship =
+      match ship.direction with
+      | 0 -> { ship with y = y + 1; size = ship.size - 1 }  (* Haut *)
+      | 1 -> { ship with x = x + 1; size = ship.size - 1 }  (* Droite *)
+      | 2 -> { ship with y = y - 1; size = ship.size - 1 }  (* Bas *)
+      | _ -> { ship with x = x - 1; size = ship.size - 1 }  (* Gauche *)
+    in
+    (x, y) :: positions_list(next_ship)    
 ;;
+
 
 (**
   Vérifie si un bateau peut être placé sur la grille sans chevauchement.
@@ -199,7 +210,7 @@ let rec can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship) : bool
   if positions_list(p_ship_to_place) = [](*Condition d'arrêt de la récursivité, si la liste de positions est vide*)
     then true
     else let (x, y) = List.hd(positions_list(p_ship_to_place)) in(*on crée ici des variables correspondant aux premières valeurs de la liste de positions*)
-        match  with (**)
+        match  with (*On choisit la y-ème colonne, puis la x-ème ligne pour vérifier si elle est vide, "list.nth" permet d'accéder au n-ème élement d'une liste sans avoir à faire une récursivité manuellement*)
       | [] -> can_place_ship(p_current_grid, { p_ship_to_place with size = p_ship_to_place.size - 1 })(*On relance la fonction en réduisant de 1 la taille du bateau, on accède au champ "size" du type structuré grâce au mot clé "with"*)
       | _ -> false  (* Si la case est occupée, impossible de placer le bateau *)
 ;;
@@ -208,8 +219,18 @@ let rec can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship) : bool
   @param p_grid La grille initiale.
   @return Une grille avec tous les bateaux placés.
 *)
-let rec auto_placing_ships ( p_grid : t_grid ) : t_grid = 
-()
+let rec auto_placing_ships ( p_grid, p_ship_list_to_place : t_grid * t_ship list ) : t_grid = 
+  if p_ship_list_to_place = []
+    then p_grid
+    else let current_ship = List.hd(p_ship_list_to_place) in 
+          generate_random_position(current_ship);
+          if can_place_ship(p_grid, current_ship) = true
+            then 
+            else
+
+
+    
+
 ;;
 
 (**
