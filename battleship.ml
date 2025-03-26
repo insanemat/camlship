@@ -151,34 +151,24 @@ let display_empty_grids (p_params : t_params) : unit =
       done;
     done; 
 ;;
-(*
 (**
   Vérifie si la grille respecte la taille maximale de 10x10.
   @param p_grid La grille actuelle.
   @return true si la grille est dans les limites, false sinon.
 *)
 let max_grid_size(p_grid : t_grid) : bool =
-()
-;;*)
+if p_grid <=100 then true else false 
+;;
 
-(*
-(**
-  Génère une direction aléatoire pour un bateau.
-  @return Un entier représentant la direction (0 = Horizontal, 1 = Vertical).
-*)
-let ship_direction() : int =
-()
-;;*)
-
-(*
 (**
   Génère une position aléatoire pour un bateau donné.
   @param p_ship Le bateau à positionner.
   @return Un nouveau bateau avec une position et direction aléatoire.
 *)
 let generate_random_position(p_ship : t_ship) : t_ship =
-()
-;; *)
+let new_ship : t_ship = {ship_type=p_ship.ship_type;x=Random.int(100);y=Random.int (100);direction=Random.int (2);size=p_ship.size} in 
+new_ship
+;;
 
 (**
   Calcule la liste des positions qu'un bateau occupe sur la grille.
