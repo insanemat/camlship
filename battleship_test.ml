@@ -40,11 +40,29 @@ let test_fonc_auto_placing_ship_1(): unit =
     @author Marius Roumy
     @return unit
 *)
-let test_fonc_positions_list1(): unit = 
-    let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne la bonne position quand le bateau est orienté vers le haut",
+let test_fonc_positions_list_bas(): unit = 
+    let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne la bonne position quand le bateau est orienté vers le bas",
                                                              {ship_type = PORTE_AVION; x = 7; y =  0; direction = 2; size = 5}) in
     assert_true(test_is_success(l_res));
     assert_equals_result([(7, 0); (7, -1); (7, -2); (7, -3); (7, -4)], l_res)
+;;
+let test_fonc_positions_list_droite(): unit = 
+    let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne la bonne position quand le bateau est orienté vers la droite",
+                                                             {ship_type = PORTE_AVION; x = 7; y =  0; direction = 1; size = 5}) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result([(7, 0); (8, 0); (9, 0); (10, 0); (11, 0)], l_res)
+;;
+let test_fonc_positions_list_haut(): unit = 
+    let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne la bonne position quand le bateau est orienté vers le haut",
+                                                             {ship_type = PORTE_AVION; x = 7; y =  0; direction = 2; size = 5}) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result([(7, 0); (7, 1); (7, 2); (7, 3); (7, 4)], l_res)
+;;
+let test_fonc_positions_list_gauche(): unit = 
+    let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne la bonne position quand le bateau est orienté vers la gauche",
+                                                             {ship_type = PORTE_AVION; x = 7; y =  0; direction = 1; size = 5}) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result([(7, 0); (6, 0); (5, 0); (4, 0); (3, 0)], l_res)
 ;;
 
 (**fonction de test qui test si la règle de placement voulu est bien respectée
