@@ -46,20 +46,83 @@ let test_fonc_positions_list_bas(): unit =
     assert_true(test_is_success(l_res));
     assert_equals_result([(7, 0); (7, -1); (7, -2); (7, -3); (7, -4)], l_res)
 ;;
+
+(**fonction de test qui test si le calcule de la liste des positions d’un bateau à placer est correct
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
 let test_fonc_positions_list_droite(): unit = 
     let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne la bonne position quand le bateau est orienté vers la droite",
                                                              {ship_type = PORTE_AVION; x = 7; y =  0; direction = 1; size = 5}) in
     assert_true(test_is_success(l_res));
     assert_equals_result([(7, 0); (8, 0); (9, 0); (10, 0); (11, 0)], l_res)
 ;;
+
+(**fonction de test qui test si le calcule de la liste des positions d’un bateau à placer est correct
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
 let test_fonc_positions_list_haut(): unit = 
     let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne la bonne position quand le bateau est orienté vers le haut",
                                                              {ship_type = PORTE_AVION; x = 7; y =  0; direction = 2; size = 5}) in
     assert_true(test_is_success(l_res));
     assert_equals_result([(7, 0); (7, 1); (7, 2); (7, 3); (7, 4)], l_res)
 ;;
+
+(**fonction de test qui test si le calcule de la liste des positions d’un bateau à placer est correct
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
 let test_fonc_positions_list_gauche(): unit = 
     let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne la bonne position quand le bateau est orienté vers la gauche",
+                                                             {ship_type = PORTE_AVION; x = 7; y =  0; direction = 1; size = 5}) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result([(7, 0); (6, 0); (5, 0); (4, 0); (3, 0)], l_res)
+;;
+
+(**fonction de test qui test si le calcule de la liste des positions d’un bateau à placer est correct
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_positions_list_2(): unit = 
+    let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne le bon nombre d'élément dans la liste",
+                                                             {ship_type = PORTE_AVION; x = 7; y =  0; direction = 1; size = 2}) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result([(7, 0); (6, 0)], l_res)
+;;
+
+
+(**fonction de test qui test si le calcule de la liste des positions d’un bateau à placer est correct
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_positions_list_3(): unit = 
+    let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne le bon nombre d'élément dans la liste",
+                                                             {ship_type = CONTRE_TORPILLEUR; x = 7; y =  0; direction = 1; size = 3}) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result([(7, 0); (6, 0); (5, 0)], l_res)
+;;
+
+
+(**fonction de test qui test si le calcule de la liste des positions d’un bateau à placer est correct
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_positions_list_4(): unit = 
+    let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne le bon nombre d'élément dans la liste",
+                                                             {ship_type = CROISEUR; x = 7; y =  0; direction = 1; size = 4}) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result([(7, 0); (6, 0); (5, 0); (4, 0)], l_res)
+;;
+
+let test_fonc_positions_list_5(): unit = 
+    let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne le bon nombre d'élément dans la liste",
                                                              {ship_type = PORTE_AVION; x = 7; y =  0; direction = 1; size = 5}) in
     assert_true(test_is_success(l_res));
     assert_equals_result([(7, 0); (6, 0); (5, 0); (4, 0); (3, 0)], l_res)
@@ -99,7 +162,14 @@ let test_fonc_cell_to_pixel(): unit =
 ;;
 
 let do_test(): unit =
-    test_fonc_positions_list1();
+    test_fonc_positions_list_haut();
+    test_fonc_positions_list_droite();
+    test_fonc_positions_list_bas();
+    test_fonc_positions_list_gauche();
+    test_fonc_positions_list_2();
+    test_fonc_positions_list_3();
+    test_fonc_positions_list_4();
+    test_fonc_positions_list_5();
     test_report();
     test_reset_report();
 ;;
