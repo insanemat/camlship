@@ -13,7 +13,7 @@ open Random;;
 (**
 Détermine le type de bateau    
 *)
-type t_ship_type = PORTE_AVION | CROISEUR | CONTRE_TORPILLEUR | TORPILLEUR;;
+type t_ship_type = PORTE_AVION | CROISEUR | CONTRE_TORPILLEUR | TORPILLEUR | VIDE;;
 
 (**
 Détermine la taille de allouée à chaque type de bateau
@@ -23,7 +23,7 @@ type t_ship_size = t_ship_type * int;;
 (**
 Matrice représentant une grille grille   
 *)
-type t_grid = t_ship_size list * t_ship_size list;;
+type t_grid = t_ship_size list list;;
 
 (**
 Représentation d'un bateau : son type, la position de la première case en x et y, sa direction entre 1(horizon) et 2(vertical) et sa taille   
@@ -151,7 +151,7 @@ let display_empty_grids (p_params : t_params) : unit =
       done;
     done; 
 ;;
-
+(*
 (**
   Vérifie si la grille respecte la taille maximale de 10x10.
   @param p_grid La grille actuelle.
@@ -159,16 +159,18 @@ let display_empty_grids (p_params : t_params) : unit =
 *)
 let max_grid_size(p_grid : t_grid) : bool =
 ()
-;;
+;;*)
 
+(*
 (**
   Génère une direction aléatoire pour un bateau.
   @return Un entier représentant la direction (0 = Horizontal, 1 = Vertical).
 *)
 let ship_direction() : int =
 ()
-;;
+;;*)
 
+(*
 (**
   Génère une position aléatoire pour un bateau donné.
   @param p_ship Le bateau à positionner.
@@ -176,7 +178,7 @@ let ship_direction() : int =
 *)
 let generate_random_position(p_ship : t_ship) : t_ship =
 ()
-;;
+;; *)
 
 (**
   Calcule la liste des positions qu'un bateau occupe sur la grille.
@@ -197,7 +199,7 @@ let rec positions_list(ship : t_ship) : (int * int) list =
     (x, y) :: positions_list(next_ship)    
 ;;
 
-
+(**
 (**
   Vérifie si un bateau peut être placé sur la grille sans chevauchement.
   @param p_current_grid La grille actuelle avec les bateaux déjà placés.
@@ -213,7 +215,9 @@ let rec can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship) : bool
         match  with (*On choisit la y-ème colonne, puis la x-ème ligne pour vérifier si elle est vide, "list.nth" permet d'accéder au n-ème élement d'une liste sans avoir à faire une récursivité manuellement*)
       | [] -> can_place_ship(p_current_grid, { p_ship_to_place with size = p_ship_to_place.size - 1 })(*On relance la fonction en réduisant de 1 la taille du bateau, on accède au champ "size" du type structuré grâce au mot clé "with"*)
       | _ -> false  (* Si la case est occupée, impossible de placer le bateau *)
-;;
+;; *)
+
+(*
 (**
   Place automatiquement tous les bateaux dans la grille en respectant les règles.
   @param p_grid La grille initiale.
@@ -231,7 +235,7 @@ let rec auto_placing_ships ( p_grid, p_ship_list_to_place : t_grid * t_ship list
 
     
 
-;;
+;; *)
 
 (**
   Colorie une cellule spécifique dans l’une des grilles affichées.  

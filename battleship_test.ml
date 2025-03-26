@@ -40,7 +40,11 @@ let test_fonc_auto_placing_ship_1(): unit =
     @author Marius Roumy
     @return unit
 *)
-let test_fonc_positions_list(); unit =
+let test_fonc_positions_list1(): unit = 
+    let l_res : (int * int) list t_test_result = test_exec (positions_list, "donne la bonne position quand le bateau est orienté vers le haut",
+                                                             {ship_type = PORTE_AVION; x = 7; y =  0; direction = 2; size = 5}) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result([(7, 0); (7, -1); (7, -2); (7, -3); (7, -4)], l_res)
 ;;
 
 (**fonction de test qui test si la règle de placement voulu est bien respectée
@@ -48,7 +52,7 @@ let test_fonc_positions_list(); unit =
     @author Marius Roumy
     @return unit
 *)
-let test_fonc_can_place_ship(); unit =
+let test_fonc_can_place_ship(): unit =
 ;;
 
 (**fonction de test qui test si les cases coloriées sont les bonnes, dans la bonne grille et de la bonne couleur
@@ -76,10 +80,11 @@ let test_fonc_color_cell(): unit =
 let test_fonc_cell_to_pixel(): unit =
 ;;
 
+let do_test(): unit =
+    test_fonc_positions_list1();
+    test_report();
+    test_reset_report();
+;;
 
-test_fonc_init_params ();;
-test_report();;
-test_reset_report();;
 
-
-
+do_test() ;;
