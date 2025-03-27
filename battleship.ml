@@ -13,7 +13,7 @@ open Random;;
 (**
 Détermine le type de bateau    
 *)
-type t_ship_type = PORTE_AVION | CROISEUR | CONTRE_TORPILLEUR | TORPILLEUR | VIDE;;
+type t_ship_type = PORTE_AVION | CROISEUR | CONTRE_TORPILLEUR | TORPILLEUR;;
 
 (**
 Détermine la taille de allouée à chaque type de bateau
@@ -23,7 +23,7 @@ type t_ship_size = t_ship_type * int;;
 (**
 Matrice représentant une grille grille   
 *)
-type t_grid = t_ship_size list list;;
+type t_grid = t_ship option array array;;
 
 (**
 Représentation d'un bateau : son type, la position de la première case en x et y, sa direction entre 1(horizon) et 2(vertical) et sa taille   
@@ -158,8 +158,8 @@ let display_empty_grids (p_params : t_params) : unit =
   @return Un nouveau bateau avec une position et direction aléatoire.
 *)
 let generate_random_position(p_ship : t_ship) : t_ship =
-let new_ship : t_ship = {ship_type=p_ship.ship_type;x=Random.int(100);y=Random.int (100);direction=Random.int (2);size=p_ship.size} in 
-new_ship
+let new_ship : t_ship = {ship_type = p_ship.ship_type; x = Random.int(100); y = Random.int(100); direction = Random.int(2); size = p_ship.size} in 
+ new_ship
 ;;
 
 (**
@@ -181,54 +181,33 @@ let rec positions_list(ship : t_ship) : (int * int) list =
     (x, y) :: positions_list(next_ship)    
 ;;
 
-(*
 (**
   Vérifie si un bateau peut être placé sur la grille sans chevauchement.
   @param p_current_grid La grille actuelle avec les bateaux déjà placés.
   @param p_ship_to_place La liste des positions du bateau à placer.
   @return true si le bateau peut être placé, false sinon.
-  Le pattern matching est ici utilisé pour une meilleure lisibilité, si malgré les coms cela 
-  reste peu compréhensible je peux le faire en conditionnelle si nécéssaire
 *)
-let rec can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship) : bool =
-  if positions_list(p_ship_to_place) = [](*Condition d'arrêt de la récursivité, si la liste de positions est vide*)
-    then true
-    else let (x, y) = List.hd(positions_list(p_ship_to_place)) in(*on crée ici des variables correspondant aux premières valeurs de la liste de positions*)
-        match  with (*On choisit la y-ème colonne, puis la x-ème ligne pour vérifier si elle est vide, "list.nth" permet d'accéder au n-ème élement d'une liste sans avoir à faire une récursivité manuellement*)
-      | [] -> can_place_ship(p_current_grid, { p_ship_to_place with size = p_ship_to_place.size - 1 })(*On relance la fonction en réduisant de 1 la taille du bateau, on accède au champ "size" du type structuré grâce au mot clé "with"*)
-      | _ -> false  (* Si la case est occupée, impossible de placer le bateau *)
-;; *)
+let can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship) : bool =
+  let p_positions = positions_list(p_ship_to_place) in
+  List.for_all(fun (x, y) -> p_current_grid.(y).(x) = None) p_positions
+;;
 
-(*
 (**
   Place automatiquement tous les bateaux dans la grille en respectant les règles.
   @param p_grid La grille initiale.
   @return Une grille avec tous les bateaux placés.
 *)
-let rec auto_placing_ships ( p_grid, p_ship_list_to_place : t_grid * t_ship list ) : t_grid = 
-  if p_ship_list_to_place = []
-    then p_grid
-    else let current_ship = List.hd(p_ship_list_to_place) in 
-          generate_random_position(current_ship);
-          if can_place_ship(p_grid, current_ship) = true
-            then 
-            else
-
-
-    
-
-;; *)
-
-(**
-  Colorie une cellule spécifique dans l’une des grilles affichées.  
-  @param x Coordonnée x de la cellule dans la grille.  
-  @param y Coordonnée y de la cellule dans la grille.  
-  @param color La couleur à appliquer à la cellule.  
-*)  
-let color_cell (p_ship_x, p_ship_y, p_color : int * int * Graphics.color) : unit =  
-  ()  
-;; 
-
+let rec auto_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list) : t_grid = 
+  if p_ship_list_to_place = [] then p_grid  
+  else 
+     let p_current_ship = generate_random_position(List.hd(p_ship_list_to_place)) in
+     if can_place_ship(p_grid, p_current_ship) = true
+        then let p_positions = positions_list(p_current_ship) in
+            (List.iter (fun (x, y) -> p_grid.(y).(x) <- Some p_current_ship) p_positions;
+            auto_placing_ships(p_grid, List.tl(p_ship_list_to_place)))
+        else
+          auto_placing_ships(p_grid, p_ship_list_to_place)
+;;
 
 
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre
