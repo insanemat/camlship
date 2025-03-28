@@ -16,6 +16,11 @@ Détermine le type de bateau
 type t_ship_type = PORTE_AVION | CROISEUR | CONTRE_TORPILLEUR | TORPILLEUR;;
 
 (**
+Représentation d'un bateau : son type, la position de la première case en x et y, sa direction entre 1(horizon) et 2(vertical) et sa taille   
+*)
+type t_ship = {ship_type : t_ship_type; x : int ; y : int ; direction : int ; size : int} ;;
+
+(**
 Détermine la taille de allouée à chaque type de bateau
 *)
 type t_ship_size = t_ship_type * int;;
@@ -25,10 +30,6 @@ Matrice représentant une grille grille
 *)
 type t_grid = t_ship option array array;;
 
-(**
-Représentation d'un bateau : son type, la position de la première case en x et y, sa direction entre 1(horizon) et 2(vertical) et sa taille   
-*)
-type t_ship = {ship_type : t_ship_type; x : int ; y : int ; direction : int ; size : int} ;;
 
 (** Le type t_params est le type structuré pour nos paramètre
 @author Sarah Favre

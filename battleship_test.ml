@@ -138,21 +138,127 @@ let test_fonc_positions_list_5(): unit =
     @author Marius Roumy
     @return unit
 *)
-let test_fonc_can_place_ship(): unit =
-    let l_res : bool list t_test_result = test_exec (can_place_ship, "donne true si la position respecte les critères",
-     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |]
-        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|],
-        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|],
-        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|],
-        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|],
-        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|],
-        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|],
-        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|],
-        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|],
-        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], Some {ship_type = CROISEUR; x = 8; y = 5; direction = 0; size = 4})) in
+let test_fonc_can_place_ship_true(): unit =
+    let l_res : bool t_test_result = test_exec (can_place_ship, "donne true si la position respecte les critères",
+     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 8; y = 5; direction = 0; size = 4})) in
     assert_true(test_is_success(l_res));
     assert_equals_result(true, l_res);
 ;;
+
+(**fonction de test qui test si la règle de placement voulu est bien respectée
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_can_place_ship_superposition(): unit =
+    let l_res : bool t_test_result = test_exec (can_place_ship, "donne false si le bateau se superpose avec un autre",
+     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 3; y = 5; direction = 1; size = 4})) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result(false, l_res);
+;;
+
+(**fonction de test qui test si la règle de placement voulu est bien respectée
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_can_place_ship_sortie_haut(): unit =
+    let l_res : bool t_test_result = test_exec (can_place_ship, "donne false si le bateau depasse la grille par le haut",
+     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 0; y = 0; direction = 0; size = 4})) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result(false, l_res);
+;;
+
+(**fonction de test qui test si la règle de placement voulu est bien respectée
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_can_place_ship_sortie_droite(): unit =
+    let l_res : bool t_test_result = test_exec (can_place_ship, "donne false si le bateau depasse la grille par la droite",
+     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 8; y = 7; direction = 1; size = 4})) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result(false, l_res);
+;;
+
+(**fonction de test qui test si la règle de placement voulu est bien respectée
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_can_place_ship_sortie_bas(): unit =
+    let l_res : bool t_test_result = test_exec (can_place_ship, "donne false si le bateau depasse la grille par le bas",
+     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 9; y = 0; direction = 2; size = 4})) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result(false, l_res);
+;;
+
+(**fonction de test qui test si la règle de placement voulu est bien respectée
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_can_place_ship_sortie_gauche(): unit =
+    let l_res : bool t_test_result = test_exec (can_place_ship, "donne false si le bateau depasse la grille par la gauche",
+     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 1; y = 7; direction = 3; size = 4})) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result(false, l_res);
+;;
+
 
 (**fonction de test qui test si la règle de placement voulu est bien respectée
     @author Sarah Favre
@@ -201,28 +307,15 @@ let do_test(): unit =
     test_fonc_positions_list_3();
     test_fonc_positions_list_4();
     test_fonc_positions_list_5();
+    test_fonc_can_place_ship_true();
+    test_fonc_can_place_ship_superposition();
+    test_fonc_can_place_ship_sortie_haut();
+    test_fonc_can_place_ship_sortie_droite();
+    test_fonc_can_place_ship_sortie_bas();
+    test_fonc_can_place_ship_sortie_gauche();
     test_report();
     test_reset_report();
 ;;
 
 
 do_test() ;;
-
-[|  [| ; ; ; ; ; ; ; ; ; |],
-    [| ; ; ; ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; ; ; ; ; |],
-    [| ; ; ; ; {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; ; ; ; ; |],
-    [| ; ; ; ; {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; ; ; ; ; |],
-    [| ; ; ; ; {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; ; ; ; ; |],
-    [| ; ; ; ; {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; ; ; ; ; |],
-    [| ; ; ; ; ; ; ; ; ; |],
-    [| ; ; ; ; ; ; ; ; ; |],
-    [| ; ; ; ; ; ; ; ; ; |],
-    [| ; ; ; ; ; ; ; ; ; |],|]
-
-    {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5}
-
-    Array.make_matrix 10 10 None;;
-    
-    auto_placing_ships((Array.make_matrix 10 10 None), [PORTE_AVION ; CROISEUR; CONTRE_TORPILLEUR; CONTRE_TORPILLEUR; TORPILLEUR]) ;;
-    
-    Array.m
