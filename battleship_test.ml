@@ -139,7 +139,33 @@ let test_fonc_positions_list_5(): unit =
     @return unit
 *)
 let test_fonc_can_place_ship(): unit =
+    let l_res : bool list t_test_result = test_exec (can_place_ship, "donne true si la position respecte les critères",
+     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |]
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|],
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|],
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|],
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|],
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|],
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|],
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|],
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|],
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], Some {ship_type = CROISEUR; x = 8; y = 5; direction = 0; size = 4})) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result(true, l_res);
 ;;
+
+(**fonction de test qui test si la règle de placement voulu est bien respectée
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_can_place_ship(): unit =
+    let l_res : bool list t_test_result = test_exec (can_place_ship, "donne false si la position ne respecte pas les critères", 
+                                                            {ship_type = CROISEUR; x = 8; y = 5; direction = 0; size = 4}) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result(false, l_res);
+;;
+
 
 (**fonction de test qui test si les cases coloriées sont les bonnes, dans la bonne grille et de la bonne couleur
     @author Sarah Favre
@@ -181,3 +207,22 @@ let do_test(): unit =
 
 
 do_test() ;;
+
+[|  [| ; ; ; ; ; ; ; ; ; |],
+    [| ; ; ; ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; ; ; ; ; |],
+    [| ; ; ; ; {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; ; ; ; ; |],
+    [| ; ; ; ; {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; ; ; ; ; |],
+    [| ; ; ; ; {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; ; ; ; ; |],
+    [| ; ; ; ; {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; ; ; ; ; |],
+    [| ; ; ; ; ; ; ; ; ; |],
+    [| ; ; ; ; ; ; ; ; ; |],
+    [| ; ; ; ; ; ; ; ; ; |],
+    [| ; ; ; ; ; ; ; ; ; |],|]
+
+    {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5}
+
+    Array.make_matrix 10 10 None;;
+    
+    auto_placing_ships((Array.make_matrix 10 10 None), [PORTE_AVION ; CROISEUR; CONTRE_TORPILLEUR; CONTRE_TORPILLEUR; TORPILLEUR]) ;;
+    
+    Array.m

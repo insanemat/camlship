@@ -192,7 +192,7 @@ let can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship) : bool =
   List.for_all(fun (x, y) -> p_current_grid.(y).(x) = None) p_positions
 ;;
 
-(**
+(** 
   Place automatiquement tous les bateaux dans la grille en respectant les règles.
   @param p_grid La grille initiale.
   @return Une grille avec tous les bateaux placés.
