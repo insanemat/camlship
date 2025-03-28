@@ -158,7 +158,7 @@ let display_empty_grids (p_params : t_params) : unit =
   @return Un nouveau bateau avec une position et direction aléatoire.
 *)
 let generate_random_position(p_ship : t_ship) : t_ship =
-let new_ship : t_ship = {ship_type = p_ship.ship_type; x = Random.int(100); y = Random.int(100); direction = Random.int(2); size = p_ship.size} in 
+let new_ship : t_ship = {ship_type = p_ship.ship_type; x = Random.int(10); y = Random.int(10); direction = Random.int(2); size = p_ship.size} in 
  new_ship
 ;;
 
