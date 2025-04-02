@@ -138,8 +138,8 @@ let test_fonc_positions_list_5(): unit =
     @author Marius Roumy
     @return unit
 *)
-let test_fonc_can_place_ship_true(): unit =
-    let l_res : bool t_test_result = test_exec (can_place_ship, "donne true si la position respecte les critères",
+let test_fonc_can_place_ship_haut_true(): unit =
+    let l_res : bool t_test_result = test_exec (can_place_ship, "donne true si la direction orientée vers le haut respecte les critères",
      ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
         [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
         [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
@@ -150,6 +150,69 @@ let test_fonc_can_place_ship_true(): unit =
         [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
         [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
         [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 8; y = 5; direction = 0; size = 4})) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result(true, l_res);
+;;
+
+(**fonction de test qui test si la règle de placement voulu est bien respectée
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_can_place_ship_bas_true(): unit =
+    let l_res : bool t_test_result = test_exec (can_place_ship, "donne true si la direction orientée vers le bas respecte les critères",
+     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 8; y = 5; direction = 2; size = 4})) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result(true, l_res);
+;;
+
+(**fonction de test qui test si la règle de placement voulu est bien respectée
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_can_place_ship_gauche_true(): unit =
+    let l_res : bool t_test_result = test_exec (can_place_ship, "donne true si la direction orientée vers la gauche respecte les critères",
+     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 8; y = 5; direction = 3; size = 4})) in
+    assert_true(test_is_success(l_res));
+    assert_equals_result(true, l_res);
+;;
+
+(**fonction de test qui test si la règle de placement voulu est bien respectée
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_can_place_ship_droite_true(): unit =
+    let l_res : bool t_test_result = test_exec (can_place_ship, "donne true si la direction orientée vers la droite respecte les critères",
+     ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+        [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 5; y = 5; direction = 1; size = 4})) in
     assert_true(test_is_success(l_res));
     assert_equals_result(true, l_res);
 ;;
@@ -259,43 +322,26 @@ let test_fonc_can_place_ship_sortie_gauche(): unit =
     assert_equals_result(false, l_res);
 ;;
 
-
-(**fonction de test qui test si la règle de placement voulu est bien respectée
-    @author Sarah Favre
-    @author Marius Roumy
-    @return unit
-*)
-let test_fonc_can_place_ship(): unit =
-    let l_res : bool list t_test_result = test_exec (can_place_ship, "donne false si la position ne respecte pas les critères", 
-                                                            {ship_type = CROISEUR; x = 8; y = 5; direction = 0; size = 4}) in
-    assert_true(test_is_success(l_res));
-    assert_equals_result(false, l_res);
-;;
-
-
-(**fonction de test qui test si les cases coloriées sont les bonnes, dans la bonne grille et de la bonne couleur
-    @author Sarah Favre
-    @author Marius Roumy
-    @return unit
-*)
-
-let test_fonc_display_grid(): unit =
-;;
-
-(**fonction de test qui test si la case coleriée est de la bonne couleur
-    @author Sarah Favre
-    @author Marius Roumy
-    @return unit
-*)
-let test_fonc_color_cell(): unit =
-;;
-
 (**fonction de test qui test si la position du pixel demandé est la bonne
     @author Sarah Favre
     @author Marius Roumy
     @return unit
 *)
 let test_fonc_cell_to_pixel(): unit =
+    let l_res = (int * int) t_test_result = test_exec(cell_to_pixel, "donne la bonne position du pixel en bas à gauche de la case donnée", 
+        ((x = 0, y = 0),((0, 0),
+        [|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|]))) in
+    assert_true(test_is_success(l_res))
+    assert_equals_result(54, 306)
 ;;
 
 let do_test(): unit =
@@ -307,7 +353,10 @@ let do_test(): unit =
     test_fonc_positions_list_3();
     test_fonc_positions_list_4();
     test_fonc_positions_list_5();
-    test_fonc_can_place_ship_true();
+    test_fonc_can_place_ship_haut_true();
+    test_fonc_can_place_ship_droite_true();
+    test_fonc_can_place_ship_bas_true();
+    test_fonc_can_place_ship_gauche_true();
     test_fonc_can_place_ship_superposition();
     test_fonc_can_place_ship_sortie_haut();
     test_fonc_can_place_ship_sortie_droite();
