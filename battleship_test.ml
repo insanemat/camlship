@@ -328,7 +328,7 @@ let test_fonc_can_place_ship_sortie_gauche(): unit =
     @return unit
 *)
 let test_fonc_cell_to_pixel(): unit =
-    let l_res = (int * int) t_test_result = test_exec(cell_to_pixel, "donne la bonne position du pixel en bas à gauche de la case donnée", 
+    let l_res = (int * int) t_test_result = test_exec(cell_to_pixel, "donne la bonne position du pixel en bas à gauche de la case donnée (0,0)", 
         ((x = 0, y = 0),((0, 0),
         [|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
           [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
@@ -342,6 +342,50 @@ let test_fonc_cell_to_pixel(): unit =
           [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|]))) in
     assert_true(test_is_success(l_res))
     assert_equals_result(54, 306)
+;;
+
+(**fonction de test qui test si la position du pixel demandé est la bonne
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_cell_to_pixel2(): unit =
+    let l_res = (int * int) t_test_result = test_exec(cell_to_pixel, "donne la bonne position du pixel en bas à gauche de la case donnée (0,1)", 
+        ((x = 0, y = 0),((0, 0),
+        [|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|]))) in
+    assert_true(test_is_success(l_res))
+    assert_equals_result(54, 282)
+;;
+
+(**fonction de test qui test si la position du pixel demandé est la bonne
+    @author Sarah Favre
+    @author Marius Roumy
+    @return unit
+*)
+let test_fonc_cell_to_pixel3(): unit =
+    let l_res = (int * int) t_test_result = test_exec(cell_to_pixel, "donne la bonne position du pixel en bas à gauche de la case donnée (1,0)", 
+        ((x = 0, y = 0),((0, 0),
+        [|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|]))) in
+    assert_true(test_is_success(l_res))
+    assert_equals_result(78, 306)
 ;;
 
 let do_test(): unit =
