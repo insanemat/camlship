@@ -226,8 +226,8 @@ let color_cell(p_x, p_y, p_params, p_color : int * int * t_params * Graphics.col
 ;;
 
 let cell_to_pixel(p_cell, p_params : t_cell * t_params) : int * int = 
-  let x : int = p_cell.x + p_params.margin + p_params.cell_size and
-      y : int = p_cell.y + p_params.margin + (p_params.cell_size)*2 + (p_params.grid_size)*10 in 
+  let x : int = p_cell.x + p_params.margin + p_params.grid_size and
+      y : int = (p_cell.y + p_params.margin + (p_params.grid_size) + p_params.cell_size)-4 in 
   x,y
 ;;
 
@@ -246,12 +246,12 @@ let create_computer_grid (p_params : t_params) : t_grid =
   let p_grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None} in
   for i = 1 to 9 do
     for j = 1 to 9 do
-      p_grid.(i).(j) <- {x = i * 15; y = j * 15; ship = None}
+      p_grid.(i).(j) <- {x = i * 24; y = j * 24; ship = None}
     done
   done;
   let ships_to_place = [
     {ship_type = PORTE_AVION; x = 0; y = 0; direction = 0; size = 5};
-    {ship_type = CROISEUR; x = 0; y = 0; direction = 0; size = 3};
+    {ship_type = CROISEUR; x = 0; y = 0; direction = 0; size = 4};
     {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3}
   ] in
   let final_grid = auto_placing_ships (p_grid, ships_to_place) in
