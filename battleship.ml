@@ -2,7 +2,7 @@
 @author Sarah Favre
 @author Marius Roumy
 @author Anne-Celia Mensah
-@author Maêl Icapi
+@author Maël Icapi
 
 @version 1.0
 *)
@@ -60,7 +60,7 @@ let init_params(): t_params =
 (**la fonction permet d'afficher les deux grilles vides et le nom des deux joueurs
 @author Sarah Favre
 @author Marius Roumy
-@author Maêl Icapi
+@author Maël Icapi
 @param p_params nos paramètres 
 @return unit
 *)
@@ -160,6 +160,7 @@ let display_empty_grids (p_params : t_params) : unit =
 ;;
 
 (**
+  
   Génère une position aléatoire pour un bateau donné.
   @param p_ship Le bateau à positionner.
   @return Un nouveau bateau avec une position et direction aléatoire.
@@ -171,6 +172,7 @@ let new_ship : t_ship = {ship_type = p_ship.ship_type; x = Random.int(10); y = R
 
 (**
   Calcule la liste des positions qu'un bateau occupe sur la grille.
+  @author Maël Icapi
   @param ship Le bateau dont on veut obtenir les positions.
   @return Une liste de positions représentant le bateau sur la grille.
 *)
@@ -190,6 +192,7 @@ let rec positions_list(ship : t_ship) : (int * int) list =
 
 (**
   Vérifie si un bateau peut être placé sur la grille sans chevauchement.
+  @author Maël Icapi
   @param p_current_grid La grille actuelle avec les bateaux déjà placés.
   @param p_ship_to_place La liste des positions du bateau à placer.
   @return true si le bateau peut être placé, false sinon.
@@ -201,6 +204,7 @@ let can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship) : bool =
 
 (** 
   Place automatiquement tous les bateaux dans la grille en respectant les règles.
+  @author Maël Icapi
   @param p_grid La grille initiale.
   @return Une grille avec tous les bateaux placés.
 *)
@@ -220,17 +224,42 @@ let rec auto_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list)
       auto_placing_ships (p_grid, p_ship_list_to_place)
 ;;
 
+(**
+   Permet de colorier une cellule de la grille dans un couleur donnée
+   @param p_x voir p_y
+   @param p_y la coordonnée sur l'axe y du point inférieur gauche
+   @param p_params les paramètres de la partie
+   @param p_color la couleur désirée
+   @author Anne Celia Mensah 
+*)
 let color_cell(p_x, p_y, p_params, p_color : int * int * t_params * Graphics.color) : unit =
   set_color(p_color);
   fill_rect(p_x, p_y, p_params.grid_size, p_params.grid_size);
 ;;
 
+(** [cell_to_pixel(p_cell, p_params)] convertit une cellule logique de la grille en coordonnées
+    de pixel à afficher à l’écran. Elle utilise les paramètres d’affichage pour ajuster
+    la position selon la taille de la grille, les marges, etc.
+
+    @param p_cell : la cellule de type [t_cell] dont on veut obtenir la position graphique.
+    @param p_params : les paramètres graphiques (marge, taille des cases, etc.).
+    @return un couple d’entiers (x, y) correspondant aux coordonnées en pixels.
+    @author Maël Icapi
+*)
 let cell_to_pixel(p_cell, p_params : t_cell * t_params) : int * int = 
   let x : int = p_cell.x + p_params.margin + p_params.grid_size and
       y : int = (p_cell.y + p_params.margin + (p_params.grid_size) + p_params.cell_size)-4 in 
   x,y
 ;;
 
+(** [display_grid p_grid] affiche les cases contenant un bateau sur une grille graphique.
+    Chaque cellule de la grille est parcourue, et si un bateau est présent (champ [ship] ≠ None),
+    la cellule est coloriée à l’aide de [color_cell].
+
+    @param p_grid : la grille de type [t_grid] à afficher.
+    @return unit (effet de bord : dessine à l’écran).
+    @author Maël Icapi
+*)
 let display_grid (p_grid : t_grid) : unit =
   for i = 0 to Array.length p_grid - 1 do
     for j = 0 to Array.length p_grid.(i) - 1 do
@@ -241,7 +270,15 @@ let display_grid (p_grid : t_grid) : unit =
   done
 ;;
 
+(** [create_computer_grid p_params] crée et initialise la grille de l’ordinateur :
+    - Elle alloue une grille 10x10 vide (sans bateaux),
+    - Place des coordonnées graphiques dans chaque cellule,
+    - Génère et place automatiquement une liste prédéfinie de bateaux.
 
+    @param p_params : les paramètres graphiques nécessaires à l’affichage.
+    @return une grille [t_grid] avec des bateaux placés aléatoirement.
+    @author Maël Icapi
+*)
 let create_computer_grid (p_params : t_params) : t_grid =
   let p_grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None} in
   for i = 1 to 9 do
