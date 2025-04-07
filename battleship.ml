@@ -227,7 +227,7 @@ let color_cell(p_x, p_y, p_params, p_color : int * int * t_params * Graphics.col
 
 let cell_to_pixel(p_cell, p_params : t_cell * t_params) : int * int = 
   let x : int = p_cell.x + p_params.margin + p_params.grid_size and
-      y : int = (p_cell.y + p_params.margin + (p_params.grid_size) + p_params.cell_size)-4 in 
+      y : int = p_cell.y + p_params.margin + p_params.message_size in 
   x,y
 ;;
 
