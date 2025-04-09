@@ -292,11 +292,51 @@ let create_computer_grid (p_params : t_params) : t_grid =
   let ships_to_place = [
     {ship_type = PORTE_AVION; x = 0; y = 0; direction = 0; size = 5};
     {ship_type = CROISEUR; x = 0; y = 0; direction = 0; size = 4};
-    {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3}
+    {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3};
+    {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3};
+    {ship_type = TORPILLEUR; x = 0; y = 0; direction = 0; size = 2};
   ] in
   let final_grid = auto_placing_ships (p_grid, ships_to_place) in
   final_grid
 ;;
+
+(**
+    *)
+let rec display_message(p_ship_list : t_ship list): unit =
+
+;;
+
+(**
+    *)
+let read_mouse() : int * int =
+
+;;
+
+(**
+    *)
+let choose_direction(p_grid, p_ship : t_grid * t_ship): t_ship =
+
+;;
+
+(**
+    *)
+let rec positions_list_player(p_ship : t_ship): (int * int) list =
+
+;;
+
+(**
+    *)
+let manual_placing_ships_list(p_grid, p_ship_list_to_place : t_grid * t_ship list): t_grid =
+
+;;
+
+(***
+    *)
+let init_battleship(p_battleship : t_battleship): t_battleship =
+
+;;
+
+
 
 
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre
@@ -310,9 +350,8 @@ et effectuer les affichages adéquates.
 
 let battleship_game(): unit =
 let l_params : t_params = init_params() in
-display_empty_grids(l_params)
+display_empty_grids(l_params);
+display_grid(create_computer_grid(init_params()));
 ;;
  
 battleship_game();;
-display_grid(create_computer_grid(init_params()));;
-close_graph()
