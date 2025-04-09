@@ -330,7 +330,7 @@ let manual_placing_ships_list(p_grid, p_ship_list_to_place : t_grid * t_ship lis
 
 ;;
 
-(***
+(**
     *)
 let init_battleship(p_battleship : t_battleship): t_battleship =
 
