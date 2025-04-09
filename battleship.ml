@@ -302,14 +302,46 @@ let create_computer_grid (p_params : t_params) : t_grid =
 
 (**
     *)
-let rec display_message(p_ship_list : t_ship list): unit =
-
+let rec display_message(p_ship_list, p_params : t_ship list * t_params): unit =
+set_color(white);
+fill_rect(p_params.margin, p_params.margin, p_params.window_width - 2 * p_params.margin, p_params.message_size);
+moveto(p_params.margin + 2, p_params.margin + p_params.message_size - p_params.cell_size);
+  if p_ship_list = [] then ()
+  else 
+    let l_current_ship : t_ship = List.hd(p_ship_list) in
+    if l_current_ship.ship_type = PORTE_AVION then 
+      (set_color(black);
+      draw_string "Porte-avions de taille 5, placez-le sur le plateau";
+      display_message(List.tl(p_ship_list), p_params))
+    else 
+      if l_current_ship.ship_type = CROISEUR then
+        (set_color(black);
+        draw_string "Croiseur de taille 4, placez-le sur le plateau";
+        display_message(List.tl(p_ship_list), p_params))
+      else 
+        if l_current_ship.ship_type = CONTRE_TORPILLEUR then
+          (set_color(black);
+          draw_string "Contre-torpilleur de taille 3, placez-le sur le plateau";
+          display_message(List.tl(p_ship_list), p_params))
+        else 
+          (set_color(black);
+          draw_string "Torpilleur de taille 2, placez-le sur le plateau";
+          display_message(List.tl(p_ship_list), p_params))
 ;;
 
 (**
     *)
-let read_mouse() : int * int =
+let which_grid(p_params : t_params): int =
+let (x, y) = mouse_pos() in 
+  if x >= p_params.margin + p_params.grid_size && x <= p_params.margin + p_params.grid_size * 10
+    && y >= p_params.margin + p_params.message_size && y <= p_params.margin + p_params.message_size + p_params.grid_size*10 then 0
+  else 
 
+;;
+(**
+    *)
+let read_mouse() : int * (int * int) =
+which_grid(), wait_button_down() 
 ;;
 
 (**
