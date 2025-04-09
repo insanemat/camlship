@@ -388,6 +388,47 @@ let test_fonc_cell_to_pixel3(): unit =
     assert_equals_result(78, 306)
 ;;
 
+let fonc_choose_direction_H() : unit =
+    let l_res : (t_ship) t_test_result = test_exec(choose_direction, "applique la direction à un navire", (
+        [|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|],{shit_type = CONTRE_TORPILLEUR ; x = 5 ; y = 5 ; direction = 1 ;size = 3 })) in
+    assert_true(test_is_success l_res);
+    assert_equals_result({shit_type = CONTRE_TORPILLEUR ; x = 5 ; y = 5 ; direction = 1 ;size = 3 })
+;;
+
+
+let test_fonc_read_mouse(): unit =
+let mouse_pos : (int*int)t_test_result = test_exec ( read_mouse , "Retourne la bonne grille et la bonne positions apres un clic " , (126,258)) in
+assert_true (test_is_success(mouse_pos));
+assert_equals_result((3,4))mouse_pos
+;;
+
+let test_fonc_position_list_player_horizontal() : unit =
+let l_res : (int * int)list t_test_result = test_exec(position_list_player,"Renvoie liste de position horizontale", {ship_type = CROISEUR ; x = 2; y = 2; direction = 1; size = 3;})in
+assert_true(test_is_success l_res);
+assert_equals_result([(2,2);(3,2);(4,2)],l_res)
+;;
+
+let test_fonc_init_battleship ():unit=
+let l_res: t_battleship t_test_result = test_exec (init_battleship,"Construis un bateau avec les bon choix ",{ship_type=TORPILLEUR ; x=3;y=3;direction=3;size=2})in
+assert_true (test_is_success l_res);
+;;
+
+let test_fonc_which_grid (): int =
+    let l_res : t_params t_test_result = test exec ( wich_grid , "Conversion d'une grille ",()),in
+    assert_true ( test_is_success(l_res));
+    assert_equals_result { grid_size = 1}
+
+
+
 let do_test(): unit =
     test_fonc_positions_list_haut();
     test_fonc_positions_list_droite();
@@ -408,6 +449,7 @@ let do_test(): unit =
     test_fonc_can_place_ship_sortie_gauche();
     test_report();
     test_reset_report();
+    test_fonc_choose_direction_H() : unit =
 ;;
 
 
