@@ -199,7 +199,10 @@ let rec positions_list(ship : t_ship) : (int * int) list =
 *)
 let can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship) : bool =
   let p_positions = positions_list(p_ship_to_place) in
-  List.for_all (fun (x, y) -> (p_current_grid.(y).(x)).ship = None) p_positions
+  List.for_all (fun (x, y) -> 
+  x >= 0 && x < Array.length p_current_grid.(0) &&
+  y >= 0 && y < Array.length p_current_grid &&
+  (p_current_grid.(y).(x)).ship = None) p_positions
 ;;
 
 (** 
