@@ -284,8 +284,8 @@ let display_grid (p_grid : t_grid) : unit =
 *)
 let create_computer_grid (p_params : t_params) : t_grid =
   let p_grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None} in
-  for i = 1 to 9 do
-    for j = 1 to 9 do
+  for i = 0 to 9 do
+    for j = 0 to 9 do
       p_grid.(i).(j) <- {x = i * 24; y = j * 24; ship = None}
     done
   done;
