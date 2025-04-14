@@ -284,19 +284,91 @@ let display_grid (p_grid : t_grid) : unit =
 *)
 let create_computer_grid (p_params : t_params) : t_grid =
   let p_grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None} in
-  for i = 1 to 9 do
-    for j = 1 to 9 do
+  for i = 0 to 9 do
+    for j = 0 to 9 do
       p_grid.(i).(j) <- {x = i * 24; y = j * 24; ship = None}
     done
   done;
   let ships_to_place = [
     {ship_type = PORTE_AVION; x = 0; y = 0; direction = 0; size = 5};
     {ship_type = CROISEUR; x = 0; y = 0; direction = 0; size = 4};
-    {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3}
+    {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3};
+    {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3};
+    {ship_type = TORPILLEUR; x = 0; y = 0; direction = 0; size = 2};
   ] in
   let final_grid = auto_placing_ships (p_grid, ships_to_place) in
   final_grid
 ;;
+
+(**
+    *)
+let rec display_message(p_ship_list, p_params : t_ship list * t_params): unit =
+set_color(white);
+fill_rect(p_params.margin, p_params.margin, p_params.window_width - 2 * p_params.margin, p_params.message_size);
+moveto(p_params.margin + 2, p_params.margin + p_params.message_size - p_params.cell_size);
+  if p_ship_list = [] then ()
+  else 
+    let l_current_ship : t_ship = List.hd(p_ship_list) in
+    if l_current_ship.ship_type = PORTE_AVION then 
+      (set_color(black);
+      draw_string "Porte-avions de taille 5, placez-le sur le plateau";
+      display_message(List.tl(p_ship_list), p_params))
+    else 
+      if l_current_ship.ship_type = CROISEUR then
+        (set_color(black);
+        draw_string "Croiseur de taille 4, placez-le sur le plateau";
+        display_message(List.tl(p_ship_list), p_params))
+      else 
+        if l_current_ship.ship_type = CONTRE_TORPILLEUR then
+          (set_color(black);
+          draw_string "Contre-torpilleur de taille 3, placez-le sur le plateau";
+          display_message(List.tl(p_ship_list), p_params))
+        else 
+          (set_color(black);
+          draw_string "Torpilleur de taille 2, placez-le sur le plateau";
+          display_message(List.tl(p_ship_list), p_params))
+;;
+
+(**
+    *)
+let which_grid(p_params : t_params): int =
+let (x, y) = mouse_pos() in 
+  if x >= p_params.margin + p_params.grid_size && x <= p_params.margin + p_params.grid_size * 10
+    && y >= p_params.margin + p_params.message_size && y <= p_params.margin + p_params.message_size + p_params.grid_size*10 then 0
+  else 
+
+;;
+(**
+    *)
+let read_mouse() : int * (int * int) =
+which_grid(), wait_button_down() 
+;;
+
+(**
+    *)
+let choose_direction(p_grid, p_ship : t_grid * t_ship): t_ship =
+
+;;
+
+(**
+    *)
+let rec positions_list_player(p_ship : t_ship): (int * int) list =
+
+;;
+
+(**
+    *)
+let manual_placing_ships_list(p_grid, p_ship_list_to_place : t_grid * t_ship list): t_grid =
+
+;;
+
+(**
+    *)
+let init_battleship(p_battleship : t_battleship): t_battleship =
+
+;;
+
+
 
 
 (**la fonction permet d'ouvrir la fenètre graphique aux dimensions appropriées, mettre a jour son titre
@@ -310,9 +382,8 @@ et effectuer les affichages adéquates.
 
 let battleship_game(): unit =
 let l_params : t_params = init_params() in
-display_empty_grids(l_params)
+display_empty_grids(l_params);
+display_grid(create_computer_grid(init_params()));
 ;;
  
 battleship_game();;
-display_grid(create_computer_grid(init_params()));;
-close_graph()
