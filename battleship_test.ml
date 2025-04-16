@@ -388,7 +388,33 @@ let test_fonc_cell_to_pixel3(): unit =
     assert_equals_result(78, 306)
 ;;
 
+(**fonction de test qui test si la direction du navire est bien vers le haut
+    @author Sarah Favre
+    @author Anne Celia
+    @return unit
+*)
 let fonc_choose_direction_H() : unit =
+    let l_res : (t_ship) t_test_result = test_exec(choose_direction, "applique la direction à un navire", (
+        [|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|],{shit_type = CONTRE_TORPILLEUR ; x = 5 ; y = 5 ; direction = 0 ;size = 3 })) in
+    assert_true(test_is_success l_res);
+    assert_equals_result({shit_type = CONTRE_TORPILLEUR ; x = 5 ; y = 5 ; direction = 0 ;size = 3 })
+;;
+
+(**fonction de test qui test si la direction du navire est bien vers la droite
+    @author Sarah Favre
+    @author Anne Celia
+    @return unit
+*)
+let fonc_choose_direction_D() : unit =
     let l_res : (t_ship) t_test_result = test_exec(choose_direction, "applique la direction à un navire", (
         [|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
           [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
@@ -404,12 +430,64 @@ let fonc_choose_direction_H() : unit =
     assert_equals_result({shit_type = CONTRE_TORPILLEUR ; x = 5 ; y = 5 ; direction = 1 ;size = 3 })
 ;;
 
+(**fonction de test qui test si la direction du navire est bien vers le bas
+    @author Sarah Favre
+    @author Anne Celia
+    @return unit
+*)
+let fonc_choose_direction_B() : unit =
+    let l_res : (t_ship) t_test_result = test_exec(choose_direction, "applique la direction à un navire", (
+        [|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|],{shit_type = CONTRE_TORPILLEUR ; x = 5 ; y = 5 ; direction = 2 ;size = 3 })) in
+    assert_true(test_is_success l_res);
+    assert_equals_result({shit_type = CONTRE_TORPILLEUR ; x = 5 ; y = 5 ; direction = 2 ;size = 3 })
+;;
 
+(**fonction de test qui test si la direction du navire est bien vers la gauche
+    @author Sarah Favre
+    @author Anne Celia
+    @return unit
+*)
+let fonc_choose_direction_G() : unit =
+    let l_res : (t_ship) t_test_result = test_exec(choose_direction, "applique la direction à un navire", (
+        [|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|],{shit_type = CONTRE_TORPILLEUR ; x = 5 ; y = 5 ; direction = 3 ; size = 3 })) in
+    assert_true(test_is_success l_res);
+    assert_equals_result({shit_type = CONTRE_TORPILLEUR ; x = 5 ; y = 5 ; direction = 3 ;size = 3 })
+;;
+
+(**fonction de test qui test si la grille et la position retournées sont les bonnes apres un clic
+    @author Sarah Favre
+    @author Anne Celia
+    @return unit
+*)
 let test_fonc_read_mouse(): unit =
-let mouse_pos : (int*int)t_test_result = test_exec ( read_mouse , "Retourne la bonne grille et la bonne positions apres un clic " , (126,258)) in
+let mouse_pos : (int*int)t_test_result = test_exec (read_mouse , "Retourne la bonne grille et la bonne position après un clic " , (126,258)) in
 assert_true (test_is_success(mouse_pos));
 assert_equals_result((3,4))mouse_pos
 ;;
+
+(**fonction de test qui test si la liste de position horizontale renvoyé est la bonne 
+    @author Sarah Favre
+    @author Anne Celia
+    @return unit
+*)
 
 let test_fonc_position_list_player_horizontal() : unit =
 let l_res : (int * int)list t_test_result = test_exec(position_list_player,"Renvoie liste de position horizontale", {ship_type = CROISEUR ; x = 2; y = 2; direction = 1; size = 3;})in
@@ -417,17 +495,55 @@ assert_true(test_is_success l_res);
 assert_equals_result([(2,2);(3,2);(4,2)],l_res)
 ;;
 
-let test_fonc_init_battleship ():unit=
-let l_res: t_battleship t_test_result = test_exec (init_battleship,"Construis un bateau avec les bon choix ",{ship_type=TORPILLEUR ; x=3;y=3;direction=3;size=2})in
+(**fonction de test qui test si la position aléatoire respecte les paramètres du jeu
+    @author Sarah Favre
+    @author Anne Celia
+    @return unit
+*)
+
+let test_fonc_init_battleship(): unit =
+let l_res: t_battleship t_test_result = test_exec (init_battleship,"Place un bateau aleatoirement",{ship_type=TORPILLEUR ; x=3;y=3;direction=3;size=2})in
 assert_true (test_is_success l_res);
 ;;
 
-let test_fonc_which_grid (): int =
-    let l_res : t_params t_test_result = test exec ( wich_grid , "Conversion d'une grille ",()),in
-    assert_true ( test_is_success(l_res));
-    assert_equals_result { grid_size = 1}
+(**fonction de test qui test si la souris est bien sur la grille du l'ordinateur
+    @author Sarah Favre
+    @author Anne Celia
+    @return unit
+*)
 
+let test_fonc_which_grid_0(): int =
+    let l_res : int t_test_result = test exec (wich_grid, "Conversion d'une grille en un chiffre",{margin = 30; cell_size = 15; grid_size = 24; window_width = 670;
+    window_height = 390; message_size = 60} ) in
+    assert_true (test_is_success(l_res));
+    assert_equals_result {0, l_res}
+;;
 
+(**fonction de test qui test si la souris est bien sur la grille du joueur
+    @author Sarah Favre
+    @author Anne Celia
+    @return unit
+*)
+
+let test_fonc_which_grid_1(): int =
+    let l_res : int t_test_result = test exec (wich_grid, "Conversion d'une grille en un chiffre",{margin = 30; cell_size = 15; grid_size = 24; window_width = 670;
+    window_height = 390; message_size = 60} ) in
+    assert_true (test_is_success(l_res));
+    assert_equals_result {1, l_res}
+;;
+
+(**fonction de test qui test si la souris est sur aucune des deux grilles
+    @author Sarah Favre
+    @author Anne Celia
+    @return unit
+*)
+
+let test_fonc_which_grid_2(): int =
+    let l_res : int t_test_result = test exec (wich_grid, "Conversion d'une grille en un chiffre",{margin = 30; cell_size = 15; grid_size = 24; window_width = 670;
+    window_height = 390; message_size = 60} ) in
+    assert_true (test_is_success(l_res));
+    assert_equals_result {2, l_res}
+;;
 
 let do_test(): unit =
     test_fonc_positions_list_haut();
@@ -449,7 +565,16 @@ let do_test(): unit =
     test_fonc_can_place_ship_sortie_gauche();
     test_report();
     test_reset_report();
-    test_fonc_choose_direction_H() : unit =
+    test_fonc_choose_direction_H();
+    test_fonc_choose_direction_D();
+    test_fonc_choose_direction_B();
+    test_fonc_choose_direction_G();
+    test_fonc_read_mouse();
+    test_fonc_position_list_player_horizontal();
+    test_fonc_init_battleship();
+    test_fonc_which_grid_0();
+    test_fonc_which_grid_1();
+    test_fonc_which_grid_2();
 ;;
 
 
