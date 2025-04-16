@@ -343,26 +343,53 @@ else 2
 ;;
 (**
     *)
-let read_mouse() : int * (int * int) =
-which_grid(), wait_button_down() 
+let read_mouse(p_params : t_params) : int * (int * int) =
+which_grid(p_params), wait_button_down() 
 ;;
 
 (**
     *)
 let choose_direction(p_grid, p_ship : t_grid * t_ship): t_ship =
+  let p_mouse_x, p_mouse_y : int = mouse_pos() in
+    if p_grid.(x)
 
 ;;
 
-(**
-    *)
-let rec positions_list_player(p_ship : t_ship): (int * int) list =
-
-;;
 
 (**
     *)
 let manual_placing_ships_list(p_grid, p_ship_list_to_place : t_grid * t_ship list): t_grid =
 
+;;
+
+(** [create_player_grid p_params] crée et initialise la grille du joueur :
+    - Elle alloue une grille 10x10 vide (sans bateaux),
+    - Place des coordonnées graphiques dans chaque cellule,
+    - Permet au joueur de placer une liste prédéfinie de bateaux.
+
+    @param p_params : les paramètres graphiques nécessaires à l’affichage.
+    @return une grille [t_grid] avec des bateaux placés.
+    @author Maël Icapi
+    @author Marius Roumy
+*)
+let create_player_grid (p_params : t_params) : t_grid =
+  let p_grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None} in
+  for i = 0 to 9 do
+    for j = 0 to 9 do
+      p_grid.(i).(j) <- {x = i * 24 + (p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin;
+       y = j * 24 + p_params.margin + p_params.message_size; 
+       ship = None}
+    done
+  done;
+  let ships_to_place = [
+    {ship_type = PORTE_AVION; x = 0; y = 0; direction = 0; size = 5};
+    {ship_type = CROISEUR; x = 0; y = 0; direction = 0; size = 4};
+    {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3};
+    {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3};
+    {ship_type = TORPILLEUR; x = 0; y = 0; direction = 0; size = 2};
+  ] in
+  let final_grid = manual_placing_ships_list (p_grid, ships_to_place) in
+  final_grid
 ;;
 
 (**
@@ -388,5 +415,5 @@ let l_params : t_params = init_params() in
 display_empty_grids(l_params);
 display_grid(create_computer_grid(init_params()));
 ;;
- 
+close_graph()
 battleship_game();;
