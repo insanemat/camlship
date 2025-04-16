@@ -358,8 +358,40 @@ let choose_direction(p_grid, p_ship : t_grid * t_ship): t_ship =
 
 (**
     *)
-let manual_placing_ships_list(p_grid, p_ship_list_to_place : t_grid * t_ship list): t_grid =
+let rec manual_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list) : t_grid =
+  if p_ship_list_to_place = [] then p_grid
+  else
+    let current_ship = List.hd p_ship_list_to_place in
 
+    (* Efface une éventuelle ligne précédente *)
+    set_color white;
+    fill_rect 0 0 800 30;  (* Adapte selon la taille de ta fenêtre *)
+
+    (* Affiche l'instruction à l'utilisateur *)
+    set_color black;
+    moveto 10 10;
+    draw_string ("Cliquez pour placer : " ^ string_of_ship_type current_ship.ship_type);
+
+    (* Interaction utilisateur *)
+    let (mouse_x, mouse_y) = read_mouse () in
+    let dir = choose_direction () in
+
+    let updated_ship = { current_ship with x = mouse_x; y = mouse_y; direction = dir } in
+
+    if can_place_ship(p_grid, updated_ship) then (
+      let positions = positions_list updated_ship in
+      List.iter (fun (x, y) ->
+        p_grid.(y).(x) <- { p_grid.(y).(x) with ship = Some updated_ship }
+      ) positions;
+      manual_placing_ships(p_grid, List.tl p_ship_list_to_place)
+    ) else (
+      (* Message d'erreur affiché dans la fenêtre *)
+      set_color red;
+      moveto 10 10;
+      draw_string "Placement invalide, cliquez à nouveau.";
+      Unix.sleepf 1.5;  (* Pause pour laisser le joueur lire *)
+      manual_placing_ships(p_grid, p_ship_list_to_place)
+    )
 ;;
 
 (** [create_player_grid p_params] crée et initialise la grille du joueur :
@@ -411,9 +443,11 @@ et effectuer les affichages adéquates.
 
 
 let battleship_game(): unit =
-let l_params : t_params = init_params() in
-display_empty_grids(l_params);
-display_grid(create_computer_grid(init_params()));
+  let l_params : t_params = init_params() in
+    display_empty_grids(l_params);
+    display_grid(create_computer_grid(init_params()));
+    display_grid(create_player_grid(init_params()));
 ;;
+
 close_graph()
 battleship_game();;
