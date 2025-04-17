@@ -478,9 +478,9 @@ let fonc_choose_direction_G() : unit =
     @return unit
 *)
 let test_fonc_read_mouse(): unit =
-let mouse_pos : (int*int)t_test_result = test_exec (read_mouse , "Retourne la bonne grille et la bonne position après un clic " , (126,258)) in
+let mouse_pos : int * (int*int)t_test_result = test_exec (read_mouse , "Retourne la bonne grille et la bonne position après un clic " , (126,258)) in
 assert_true (test_is_success(mouse_pos));
-assert_equals_result((3,4))mouse_pos
+assert_equals_result(0, (3,4))mouse_pos
 ;;
 
 (**fonction de test qui test si la liste de position horizontale renvoyé est la bonne 
@@ -545,7 +545,38 @@ let test_fonc_which_grid_2(): int =
     assert_equals_result {2, l_res}
 ;;
 
+let test_manual_placing_ships_list (): t_grid =
+let l_res : (t_grid * t-ship_list) t_test_result = test exec ( manual_placing_ships_list , " Permet de placer l'ensemble des bateaux a placer dans sa grille"),(
+[|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+          [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], 
+          
+            [|{ship_type = PORTE_AVION; x = 0; y = 0; direction = 0; size = 5};
+            {ship_type = CROISEUR; x = 0; y = 0; direction = 1; size = 4};
+            {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3};
+            {ship_type = CONTRE_TORPILLEUR; x = 0; y = 20; direction = 0; size = 3};
+            {ship_type = TORPILLEUR; x = 0; y = 0; direction = 0; size = 2}|]) in       
+
+
+
+         
+                                                                                
+                                                                                    
+                                            
+)in
+assert_true (test_is_success(l_res));
+assert_equals_result ()
+;;
+
 let do_test(): unit =
+    test_reset_report();
     test_fonc_positions_list_haut();
     test_fonc_positions_list_droite();
     test_fonc_positions_list_bas();
@@ -563,8 +594,6 @@ let do_test(): unit =
     test_fonc_can_place_ship_sortie_droite();
     test_fonc_can_place_ship_sortie_bas();
     test_fonc_can_place_ship_sortie_gauche();
-    test_report();
-    test_reset_report();
     test_fonc_choose_direction_H();
     test_fonc_choose_direction_D();
     test_fonc_choose_direction_B();
@@ -575,6 +604,7 @@ let do_test(): unit =
     test_fonc_which_grid_0();
     test_fonc_which_grid_1();
     test_fonc_which_grid_2();
+    test_report();
 ;;
 
 
