@@ -379,41 +379,44 @@ else
 
 (**
     *)
-let rec manual_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list) : t_grid =
-  if p_ship_list_to_place = [] then p_grid
-  else
-    let current_ship = List.hd p_ship_list_to_place in
-
-    (* Efface une éventuelle ligne précédente *)
-    set_color white;
-    Graphics.fill_rect 0 0 800 30;  (* Adapte selon la taille de ta fenêtre *)
-
-    (* Affiche l'instruction à l'utilisateur *)
-    set_color black;
-    Graphics.moveto 10 10;
-    Graphics.draw_string ("Cliquez pour placer :");
-
-    (* Interaction utilisateur *)
-    let mouse_x, mouse_y = read_mouse (init_params()) in
-    let dir = choose_direction (p_grid, current_ship, init_params()) in
-
-    let updated_ship = { current_ship with x = mouse_x; y = mouse_y; direction = dir } in
-
-    if can_place_ship (p_grid, updated_ship) then (
-      let positions = positions_list updated_ship in
-      List.iter (fun (x, y) ->
-        p_grid.(y).(x) <- { p_grid.(y).(x) with ship = Some updated_ship }
-      ) positions;
-      manual_placing_ships (p_grid, List.tl p_ship_list_to_place)
-    ) else (
-      (* Message d'erreur affiché dans la fenêtre *)
-      set_color red;
-      moveto 10 10;
-      draw_string "Placement invalide, cliquez à nouveau.";
-      Unix.sleepf 1.5;  (* Pause pour laisser le joueur lire *)
-      manual_placing_ships (p_grid, p_ship_list_to_place)
-    )
-;;
+    let rec manual_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list) : t_grid =
+      if p_ship_list_to_place = [] then p_grid
+      else
+        let current_ship = List.hd p_ship_list_to_place in
+    
+        (* Efface une éventuelle ligne précédente *)
+        set_color white;
+        Graphics.fill_rect 0 0 800 30;  (* Adapte selon la taille de ta fenêtre *)
+    
+        (* Affiche l'instruction à l'utilisateur *)
+        set_color black;
+        Graphics.moveto 10 10;
+        Graphics.draw_string ("Cliquez pour placer :");
+    
+        (* Interaction utilisateur : obtenir la nouvelle position du bateau et sa direction *)
+        let _, (mouse_x, mouse_y) = read_mouse (init_params()) in
+        let updated_ship = choose_direction (p_grid, current_ship, init_params()) in
+    
+        (* Mise à jour de la position du bateau après avoir choisi sa direction *)
+        let updated_ship_with_position = { updated_ship with x = mouse_x; y = mouse_y } in
+    
+        if can_place_ship (p_grid, updated_ship_with_position) then (
+          let positions = positions_list updated_ship_with_position in
+        List.iter (fun (x, y) ->
+          let old_cell = p_grid.(y).(x) in
+          p_grid.(y).(x) <- { old_cell with ship = Some updated_ship_with_position }
+          ) positions;
+          manual_placing_ships (p_grid, List.tl p_ship_list_to_place)
+        ) else (
+          (* Message d'erreur affiché dans la fenêtre *)
+          set_color red;
+          moveto 10 10;
+          draw_string "Placement invalide, cliquez à nouveau.";
+          Unix.sleepf 1.5;  (* Pause pour laisser le joueur lire *)
+          manual_placing_ships (p_grid, p_ship_list_to_place)
+        )
+    ;;
+    
 
 (** [create_player_grid p_params] crée et initialise la grille du joueur :
     - Elle alloue une grille 10x10 vide (sans bateaux),
@@ -447,8 +450,9 @@ let create_player_grid (p_params : t_params) : t_grid =
 
 (**
     *)
-let init_battleship(p_battleship : t_battleship): t_battleship =
-
+let init_battleship():  =
+display_grid(create_computer_grid(init_params()));
+display_grid(create_player_grid(init_params()));
 ;;
 
 
@@ -465,8 +469,7 @@ et effectuer les affichages adéquates.
 
 let battleship_game(): unit =
   let l_params : t_params = init_params() in
-    display_empty_grids(l_params);
-    display_grid(create_computer_grid(init_params()));
+init_battleship();
 ;;
 
 close_graph()
