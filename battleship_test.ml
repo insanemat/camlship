@@ -560,14 +560,40 @@ let l_res : (t_grid * t-ship_list) t_test_result = test exec ( manual_placing_sh
           
             [|{ship_type = PORTE_AVION; x = 0; y = 0; direction = 0; size = 5};
             {ship_type = CROISEUR; x = 0; y = 0; direction = 1; size = 4};
-            {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 0; size = 3};
-            {ship_type = CONTRE_TORPILLEUR; x = 0; y = 20; direction = 0; size = 3};
-            {ship_type = TORPILLEUR; x = 0; y = 0; direction = 0; size = 2}|]) in       
+            {ship_type = CONTRE_TORPILLEUR; x = 0; y = 0; direction = 2; size = 3};
+            {ship_type = CONTRE_TORPILLEUR; x = 0; y = 20; direction = 3; size = 3};
+            {ship_type = TORPILLEUR; x = 0; y = 0; direction = 4; size = 2}|]) in   
 
-
-
+assert_true(test_is_success(l_res))
+ assert_equals_result ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+ [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+ [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+ [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+ [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+ [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+ [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+ [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+ [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+ [|None ; None ; {ship_type = CROISEUR; x = 0; y = 0; direction = 0; size = 5};
+                 {ship_type = CROISEUR; x = 0; y = 0; direction = 1; size = 4};
+                 {ship_type = CROISEUR; x = 0; y = 0; direction = 2; size = 3};
+                 {ship_type = CROISEUR; x = 0; y = 20; direction = 3; size = 3};
+                 {ship_type = CROISEUR; x = 0; y = 0; direction = 4; size = 2} None ; None ; None ; None ; None ; None ; None ; None|]|]
+;;
+ 
          
-                                                                                
+
+
+
+
+
+
+
+
+
+
+
+      
                                                                                     
                                             
 )in
