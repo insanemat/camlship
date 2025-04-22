@@ -343,7 +343,7 @@ else 2
 ;;
 (**
     *)
-    let read_mouse (p_params : t_params) : int * (int * int) =
+let read_mouse (p_params : t_params) : int * (int * int) =
       let (x, y) = wait_button_down () in
       (* Préparer le message avec les coordonnées *)
       let message = Printf.sprintf "Position de la souris: (%d, %d)" x y in
@@ -366,41 +366,31 @@ else 2
 
 (**
     *)
-    let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t_ship =
+let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t_ship =
       let p_mouse_x, p_mouse_y = wait_button_down () in
-    
       let updated_ship = {
         p_ship with
-        x = (p_mouse_x - (((p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin))) / p_params.cell_size;
-        y = (p_mouse_y - p_params.margin + p_params.message_size) / p_params.cell_size
+        x = (p_mouse_x - ((p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin)) / p_params.grid_size;
+        y = (p_mouse_y - (p_params.margin + p_params.message_size)) / p_params.grid_size
       } in
-    
-      (* Message dans la zone d'instruction *)
       set_color white;
-      fill_rect(p_params.margin, p_params.margin, p_params.window_width - 2 * p_params.margin, p_params.message_size);
+      fill_rect (p_params.margin, p_params.margin, p_params.window_width - 2 * p_params.margin, p_params.message_size);
       moveto (p_params.margin + 2, p_params.margin + p_params.message_size - p_params.cell_size);
       set_color black;
-      draw_string "Cliquez dans une direction pour orienter le bateau";
-    
+      draw_string "Cliquez sur une case adjacente pour orienter le bateau";
       let new_mouse_x, new_mouse_y = wait_button_down () in
-      let cs = p_params.cell_size in
-    
-      if new_mouse_x >= p_mouse_x + cs && new_mouse_x <= p_mouse_x + 2 * cs &&
-         new_mouse_y >= p_mouse_y && new_mouse_y <= p_mouse_y + cs then
+      let new_grid_x = (new_mouse_x - ((p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin)) / p_params.grid_size in
+      let new_grid_y = (new_mouse_y - (p_params.margin + p_params.message_size)) / p_params.grid_size in
+      if new_grid_x = updated_ship.x + 1 && new_grid_y = updated_ship.y then
         { updated_ship with direction = 1 }  (* droite *)
-      else if new_mouse_x >= p_mouse_x && new_mouse_x <= p_mouse_x + cs &&
-              new_mouse_y >= p_mouse_y + cs && new_mouse_y <= p_mouse_y + 2 * cs then
-        { updated_ship with direction = 0 }  (* bas *)
-      else if new_mouse_x >= p_mouse_x - cs && new_mouse_x <= p_mouse_x &&
-              new_mouse_y >= p_mouse_y && new_mouse_y <= p_mouse_y + cs then
+      else if new_grid_x = updated_ship.x - 1 && new_grid_y = updated_ship.y then
         { updated_ship with direction = 3 }  (* gauche *)
-      else if new_mouse_x >= p_mouse_x && new_mouse_x <= p_mouse_x + cs &&
-              new_mouse_y >= p_mouse_y - cs && new_mouse_y <= p_mouse_y then
+      else if new_grid_x = updated_ship.x && new_grid_y = updated_ship.y + 1 then
+        { updated_ship with direction = 0 }  (* bas *)
+      else if new_grid_x = updated_ship.x && new_grid_y = updated_ship.y - 1 then
         { updated_ship with direction = 2 }  (* haut *)
       else
-        (* Optionnel : afficher un message d'erreur ici *)
         updated_ship
-    ;;
     
 
 (**
@@ -410,36 +400,41 @@ else 2
       if p_ship_list_to_place = [] then p_grid
       else
         let current_ship = List.hd p_ship_list_to_place in
-    
         (* Affiche le message spécifique pour le bateau en cours *)
         display_message([current_ship], params);
-    
         (* Lecture de la position cliquée par l'utilisateur *)
-        let _, (mouse_x, mouse_y) = read_mouse params in
-    
-        (* Demande de direction *)
-        let updated_ship = choose_direction (p_grid, current_ship, params) in
-    
-        (* Mise à jour des coordonnées *)
-        let updated_ship_with_position = { updated_ship with x = mouse_x; y = mouse_y } in
-    
-        if can_place_ship (p_grid, updated_ship_with_position) then (
-          let positions = positions_list updated_ship_with_position in
-          List.iter (fun (x, y) ->
-            let old_cell = p_grid.(y).(x) in
-            p_grid.(y).(x) <- { old_cell with ship = Some updated_ship_with_position }
-          ) positions;
-          manual_placing_ships (p_grid, List.tl p_ship_list_to_place)
+        let grid_id, _ = read_mouse params in
+        (* Vérifier que le clic est sur la grille du joueur *)
+        if grid_id = 1 then (
+          (* Demande de direction *)
+          let updated_ship = choose_direction (p_grid, current_ship, params) in
+          if can_place_ship (p_grid, updated_ship) then (
+            let positions = positions_list updated_ship in
+            List.iter (fun (x, y) ->
+              let old_cell = p_grid.(y).(x) in
+              (* Mettre à jour la cellule avec le bateau *)
+              p_grid.(y).(x) <- { old_cell with ship = Some updated_ship }
+            ) positions;
+            display_grid p_grid; (* Afficher la grille après placement *)
+            manual_placing_ships (p_grid, List.tl p_ship_list_to_place)
+          ) else (
+            let positions = positions_list updated_ship in
+            let debug_msg = Printf.sprintf "Placement invalide pour positions: %s"
+              (String.concat ", " (List.map (fun (x, y) -> Printf.sprintf "(%d, %d)" x y) positions)) in
+            set_color red;
+            moveto (params.margin, params.margin + 5);
+            draw_string debug_msg;
+            Unix.sleepf 2.0;
+            manual_placing_ships (p_grid, p_ship_list_to_place)
+          )
         ) else (
-          (* Affiche un message d'erreur dans la zone dédiée *)
           set_color red;
           moveto (params.margin, params.margin + 5);
-          draw_string "Placement invalide, cliquez à nouveau.";
+          draw_string "Veuillez cliquer sur la grille du joueur (droite).";
           Unix.sleepf 1.5;
           manual_placing_ships (p_grid, p_ship_list_to_place)
         )
-    ;;
-    
+            
 (** [create_player_grid p_params] crée et initialise la grille du joueur :
     - Elle alloue une grille 10x10 vide (sans bateaux),
     - Place des coordonnées graphiques dans chaque cellule,
@@ -497,3 +492,4 @@ let battleship_game(): unit =
 ;;
 
 battleship_game();;
+close_graph()
