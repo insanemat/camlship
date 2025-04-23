@@ -329,42 +329,34 @@ moveto(p_params.margin + 2, p_params.margin + p_params.message_size - p_params.c
           display_message(List.tl(p_ship_list), p_params))
 ;;
 
-(**
-    *)
-let which_grid(p_params : t_params): int =
-let (x, y) = mouse_pos() in 
+let which_grid (p_params : t_params) (x : int) (y : int) : int =
   if x >= p_params.margin + p_params.grid_size && x <= p_params.margin + p_params.grid_size * 10
-    && y >= p_params.margin + p_params.message_size && y <= p_params.margin + p_params.message_size + p_params.grid_size*10 then 0
-  else 
-    if x >= (p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin + p_params.grid_size && 
-      x <= (p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin + p_params.grid_size * 10 &&
-      y >= p_params.margin + p_params.message_size && y <= p_params.margin + p_params.message_size + p_params.grid_size*10 then 1
-else 2
+    && y >= p_params.margin + p_params.message_size && y <= p_params.margin + p_params.message_size + p_params.grid_size * 10 then 0
+  else if x >= (p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin + p_params.grid_size &&
+          x <= (p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin + p_params.grid_size * 10 &&
+          y >= p_params.margin + p_params.message_size && y <= p_params.margin + p_params.message_size + p_params.grid_size * 10 then 1
+  else 2
 ;;
-(**
-    *)
-let read_mouse (p_params : t_params) : int * (int * int) =
-      let (x, y) = wait_button_down () in
-      (* Préparer le message avec les coordonnées *)
-      let message = Printf.sprintf "Position de la souris: (%d, %d)" x y in
-      (* Effacer la zone de message avec un fond blanc *)
-      Graphics.set_color Graphics.white;
-      Graphics.fill_rect 
-      p_params.margin 
-      (p_params.window_height - p_params.margin - p_params.message_size) 
-      (p_params.window_width - 2 * p_params.margin) 
-      p_params.message_size;
-      (* Afficher le message en noir *)
-      Graphics.set_color Graphics.black;
-      Graphics.moveto 
-        (p_params.margin + 2) 
-        (p_params.window_height - p_params.margin - p_params.message_size + 2);
-      Graphics.draw_string message;
-      (* Retourner la grille et les coordonnées comme avant *)
-      which_grid p_params, (x, y)
-    ;;
 
-(**
+  let read_mouse (p_params : t_params) : int * (int * int) =
+  let (x, y) = wait_button_down () in
+  let message = Printf.sprintf "Position de la souris: (%d, %d)" x y in
+  Graphics.set_color Graphics.white;
+  Graphics.fill_rect 
+    p_params.margin 
+    (p_params.window_height - p_params.margin - p_params.message_size) 
+    (p_params.window_width - 2 * p_params.margin) 
+    p_params.message_size;
+  Graphics.set_color Graphics.black;
+  Graphics.moveto 
+    (p_params.margin + 2) 
+    (p_params.window_height - p_params.margin - p_params.message_size + 2);
+  Graphics.draw_string message;
+  (which_grid p_params x y, (x, y))
+  ;;
+
+
+  (**
     *)
 let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t_ship =
       let p_mouse_x, p_mouse_y = wait_button_down () in
@@ -492,4 +484,4 @@ let battleship_game(): unit =
 ;;
 
 battleship_game();;
-close_graph()
+
