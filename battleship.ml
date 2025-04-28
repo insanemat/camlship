@@ -300,8 +300,13 @@ let create_computer_grid (p_params : t_params) : t_grid =
   final_grid
 ;;
 
-(**
-    *)
+(** 
+ * Affiche un message d'instruction pour placer un bateau sur le plateau.
+ * Le message dépend du type du bateau en tête de la liste.
+ *
+ * @param p_ship_list La liste des bateaux à placer.
+ * @param p_params Les paramètres d'affichage (dimensions de la fenêtre, marges, etc.).
+ *)
 let rec display_message(p_ship_list, p_params : t_ship list * t_params): unit =
 set_color(white);
 fill_rect(p_params.margin, p_params.margin, p_params.window_width - 2 * p_params.margin, p_params.message_size);
@@ -329,6 +334,14 @@ moveto(p_params.margin + 2, p_params.margin + p_params.message_size - p_params.c
           display_message(List.tl(p_ship_list), p_params))
 ;;
 
+(**
+ * Détermine sur quelle grille l'utilisateur a cliqué (joueur gauche, joueur droite ou ailleurs).
+ *
+ * @param p_params Les paramètres d'affichage incluant tailles et marges.
+ * @param x Coordonnée X du clic.
+ * @param y Coordonnée Y du clic.
+ * @return 0 si clic sur la grille de gauche, 1 si clic sur la grille de droite, 2 sinon.
+ *)
 let which_grid (p_params : t_params) (x : int) (y : int) : int =
   if x >= p_params.margin + p_params.grid_size && x <= p_params.margin + p_params.grid_size * 10
     && y >= p_params.margin + p_params.message_size && y <= p_params.margin + p_params.message_size + p_params.grid_size * 10 then 0
@@ -338,6 +351,13 @@ let which_grid (p_params : t_params) (x : int) (y : int) : int =
   else 2
 ;;
 
+(**
+ * Attend un clic utilisateur, affiche la position cliquée dans la fenêtre graphique,
+ * et renvoie la grille cliquée ainsi que les coordonnées du clic.
+ *
+ * @param p_params Les paramètres de la fenêtre graphique.
+ * @return Un couple (identifiant de grille, (x, y)) correspondant à l'endroit du clic.
+ *)
   let read_mouse (p_params : t_params) : int * (int * int) =
   let (x, y) = wait_button_down () in
   let message = Printf.sprintf "Position de la souris: (%d, %d)" x y in
@@ -356,8 +376,15 @@ let which_grid (p_params : t_params) (x : int) (y : int) : int =
   ;;
 
 
-  (**
-    *)
+ (**
+ * Permet à l'utilisateur de choisir l'orientation d'un bateau à placer
+ * en cliquant sur une case adjacente à la position initiale du bateau.
+ *
+ * @param p_grid La grille actuelle.
+ * @param p_ship Le bateau à placer.
+ * @param p_params Les paramètres d'affichage.
+ * @return Le bateau mis à jour avec ses coordonnées et sa direction définie.
+ *)
 let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t_ship =
       let p_mouse_x, p_mouse_y = wait_button_down () in
       let updated_ship = {
@@ -386,7 +413,13 @@ let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t
     
 
 (**
-    *)
+ * Permet le placement manuel d'une liste de bateaux sur la grille en interagissant
+ * avec l'utilisateur via des clics souris pour positionner et orienter les bateaux.
+ *
+ * @param p_grid La grille actuelle de jeu.
+ * @param p_ship_list_to_place La liste des bateaux à placer.
+ * @return La grille mise à jour avec tous les bateaux correctement placés.
+ *)
     let rec manual_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list) : t_grid =
       let params = init_params() in
       if p_ship_list_to_place = [] then p_grid
@@ -426,7 +459,7 @@ let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t
           Unix.sleepf 1.5;
           manual_placing_ships (p_grid, p_ship_list_to_place)
         )
-            
+            ;;
 (** [create_player_grid p_params] crée et initialise la grille du joueur :
     - Elle alloue une grille 10x10 vide (sans bateaux),
     - Place des coordonnées graphiques dans chaque cellule,
