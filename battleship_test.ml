@@ -27,14 +27,6 @@ let test_fonc_display_empty_grids() : unit =
     assert_true(test_is_success(l_res))
 ;;
 
-(**fonction de test qui test un certain placement automatique des bateaux
-    @author Sarah Favre
-    @author Marius Roumy
-    @return unit
-*)
-let test_fonc_auto_placing_ship_1(): unit =
-;;
-
 (**fonction de test qui test si le calcule de la liste des positions d’un bateau à placer est correct
     @author Sarah Favre
     @author Marius Roumy
@@ -94,6 +86,23 @@ let test_fonc_positions_list_2(): unit =
     assert_true(test_is_success(l_res));
     assert_equals_result([(7, 0); (6, 0)], l_res)
 ;;
+
+let test_fonc_can_place_ship_bas_true(): unit =
+let l_res : bool t_test_result = test_exec (can_place_ship, "donne true si la direction orientée vers le bas respecte les critères",
+ ([|[|None ; None ; None ; None ; None; None; None ; None ; None ; None |];
+    [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 1 ; direction = 0 ; size = 1} ; None; None; None ; None ; None|];
+    [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 2 ; direction = 0 ; size = 2} ; None; None; None ; None ; None|];
+    [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 3 ; direction = 0 ; size = 3} ; None; None; None ; None ; None|];
+    [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 4 ; direction = 0 ; size = 4} ; None; None; None ; None ; None|];
+    [|None ; None ; None ; None ; Some {ship_type = PORTE_AVION; x = 4; y = 5 ; direction = 0 ; size = 5} ; None; None; None ; None ; None|];
+    [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+    [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+    [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
+    [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|]|], {ship_type = CROISEUR; x = 8; y = 5; direction = 2; size = 4})) in
+assert_true(test_is_success(l_res));
+assert_equals_result(true, l_res);
+;;
+
 
 
 (**fonction de test qui test si le calcule de la liste des positions d’un bateau à placer est correct
@@ -488,7 +497,6 @@ assert_equals_result(0, (3,4))mouse_pos
     @author Anne Celia
     @return unit
 *)
-
 let test_fonc_position_list_player_horizontal() : unit =
 let l_res : (int * int)list t_test_result = test_exec(position_list_player,"Renvoie liste de position horizontale", {ship_type = CROISEUR ; x = 2; y = 2; direction = 1; size = 3;})in
 assert_true(test_is_success l_res);
@@ -500,7 +508,6 @@ assert_equals_result([(2,2);(3,2);(4,2)],l_res)
     @author Anne Celia
     @return unit
 *)
-
 let test_fonc_init_battleship(): unit =
 let l_res: t_battleship t_test_result = test_exec (init_battleship,"Place un bateau aleatoirement",{ship_type=TORPILLEUR ; x=3;y=3;direction=3;size=2})in
 assert_true (test_is_success l_res);
@@ -511,12 +518,11 @@ assert_true (test_is_success l_res);
     @author Anne Celia
     @return unit
 *)
-
 let test_fonc_which_grid_0(): int =
     let l_res : int t_test_result = test exec (wich_grid, "Conversion d'une grille en un chiffre",{margin = 30; cell_size = 15; grid_size = 24; window_width = 670;
     window_height = 390; message_size = 60} ) in
     assert_true (test_is_success(l_res));
-    assert_equals_result {0, l_res}
+    assert_equals_result (0,  l_res)
 ;;
 
 (**fonction de test qui test si la souris est bien sur la grille du joueur
@@ -524,12 +530,11 @@ let test_fonc_which_grid_0(): int =
     @author Anne Celia
     @return unit
 *)
-
 let test_fonc_which_grid_1(): int =
     let l_res : int t_test_result = test exec (wich_grid, "Conversion d'une grille en un chiffre",{margin = 30; cell_size = 15; grid_size = 24; window_width = 670;
     window_height = 390; message_size = 60} ) in
     assert_true (test_is_success(l_res));
-    assert_equals_result {1, l_res}
+    assert_equals_result (1, l_res)
 ;;
 
 (**fonction de test qui test si la souris est sur aucune des deux grilles
@@ -537,16 +542,19 @@ let test_fonc_which_grid_1(): int =
     @author Anne Celia
     @return unit
 *)
-
 let test_fonc_which_grid_2(): int =
     let l_res : int t_test_result = test exec (wich_grid, "Conversion d'une grille en un chiffre",{margin = 30; cell_size = 15; grid_size = 24; window_width = 670;
     window_height = 390; message_size = 60} ) in
     assert_true (test_is_success(l_res));
-    assert_equals_result {2, l_res}
+    assert_equals_result (2, l_res)
 ;;
 
+(** fonction de test pour verifier si les bateaux se place correctement
+@author Anne Celia
+@author Marius Roumy
+*)
 let test_manual_placing_ships_list (): t_grid =
-let l_res : (t_grid * t-ship_list) t_test_result = test exec ( manual_placing_ships_list , " Permet de placer l'ensemble des bateaux a placer dans sa grille"),(
+let l_res : (t_grid * t_ship_list) t_test_result = test exec ( manual_placing_ships_list , " Permet de placer l'ensemble des bateaux a placer dans sa grille"),(
 [|[|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
           [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
           [|None ; None ; None ; None ; None ; None ; None ; None ; None ; None|];
@@ -578,29 +586,14 @@ assert_true(test_is_success(l_res))
                  {ship_type = CROISEUR; x = 0; y = 0; direction = 1; size = 4};
                  {ship_type = CROISEUR; x = 0; y = 0; direction = 2; size = 3};
                  {ship_type = CROISEUR; x = 0; y = 20; direction = 3; size = 3};
-                 {ship_type = CROISEUR; x = 0; y = 0; direction = 4; size = 2} None ; None ; None ; None ; None ; None ; None ; None|]|]
+                 {ship_type = CROISEUR; x = 0; y = 0; direction = 4; size = 2} None ; None ; None ; None ; None ; None ; None ; None|]|])
 ;;
  
-         
-
-
-
-
-
-
-
-
-
-
-
-      
-                                                                                    
-                                            
-)in
-assert_true (test_is_success(l_res));
-assert_equals_result ()
-;;
-
+(** permet de realiser tout les test d'un coup
+@author Marius Roumy
+@author Sarah Favre
+@author Anne Celia
+*)
 let do_test(): unit =
     test_reset_report();
     test_fonc_positions_list_haut();

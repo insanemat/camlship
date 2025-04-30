@@ -410,7 +410,7 @@ let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t
         { updated_ship with direction = 2 }  (* haut *)
       else
         updated_ship
-    
+;;    
 
 (**
  * Permet le placement manuel d'une liste de bateaux sur la grille en interagissant
@@ -459,7 +459,8 @@ let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t
           Unix.sleepf 1.5;
           manual_placing_ships (p_grid, p_ship_list_to_place)
         )
-            ;;
+;;
+
 (** [create_player_grid p_params] crée et initialise la grille du joueur :
     - Elle alloue une grille 10x10 vide (sans bateaux),
     - Place des coordonnées graphiques dans chaque cellule,
@@ -491,9 +492,12 @@ let create_player_grid (p_params : t_params) : t_grid =
 ;;
 
 
-(**
+(** permet de créer et afficher les grilles de jeu
+  @author Maël Icapi
+  @author Marius Roumy
+  @return unit
     *)
-let init_battleship(): unit=
+let init_battleship(): unit =
 display_grid(create_computer_grid(init_params()));
 display_grid(create_player_grid(init_params()));
 ;;
@@ -518,3 +522,4 @@ let battleship_game(): unit =
 
 battleship_game();;
 
+close_graph()
