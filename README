@@ -5,3 +5,12 @@ ROUMY Marius
 Maêl ICAPI
 Sarah FAVRE
 Anne Celia MENSAH
+
+- modifier t_cell pour ajouter un type énuméré pour rajouter un état aux cases (inconnu; vide (=ship none); touché; touché coulé)
+- modifier display_grid pour afficher les bonnes couleurs (blanc = inconnu, bleu = vide, orange = touché... )
+- find_ship(p_grid : t_grid) : t_ship list = 
+    souris en variable locale
+- check_sunk_ship(p_ship : t_ship) : bool =
+- player_shoot(p_grid : t_grid) : t_grid =
+- rec ship_sink(p_ship_list : t_ship_list) : t_ship_list =
+- update_grid(p_grid : t_grid) : unit =
