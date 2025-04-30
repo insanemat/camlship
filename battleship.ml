@@ -364,7 +364,7 @@ let which_grid (p_params : t_params) (x : int) (y : int) : int =
   Graphics.set_color Graphics.white;
   Graphics.fill_rect 
     p_params.margin 
-    (p_params.window_height - p_params.margin - p_params.message_size) 
+    (p_params.margin) 
     (p_params.window_width - 2 * p_params.margin) 
     p_params.message_size;
   Graphics.set_color Graphics.black;
@@ -522,4 +522,3 @@ let battleship_game(): unit =
 
 battleship_game();;
 
-close_graph()
