@@ -18,6 +18,10 @@ Détermine le type de bateau
 *)
 type t_ship_type = PORTE_AVION | CROISEUR | CONTRE_TORPILLEUR | TORPILLEUR;;
 
+(** Détermine le type de l'état d'une case 
+*)
+type t_cell_stat = UNKNOWN | EMPTY | HIT | DESTROYED | PLAYER ;;
+
 (**
 Représentation d'un bateau : son type, la position de la première case en x et y, sa direction entre 1(horizon) et 2(vertical) et sa taille   
 *)
@@ -28,8 +32,8 @@ Détermine la taille de allouée à chaque type de bateau
 *)
 type t_ship_size = t_ship_type * int;;
 
-(*Représente la postition graphique d'une cellule et le bateau qu'elle contient*)
-type t_cell = {x : int; y : int; ship : t_ship option} ;;
+(*Représente la position graphique d'une cellule et le bateau qu'elle contient*)
+type t_cell = {x : int; y : int; ship : t_ship option ; stat : t_cell_stat} ;;
 
 (**
 Matrice représentant une grille grille   
@@ -219,7 +223,7 @@ let rec auto_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list)
       let p_positions = positions_list p_current_ship in
       List.iter (fun (x, y) ->
         let old_cell = p_grid.(y).(x) in
-        p_grid.(y).(x) <- { old_cell with ship = Some p_current_ship }
+        p_grid.(y).(x) <- { old_cell with ship = Some p_current_ship ; stat = UNKNOWN }
       ) p_positions;
       auto_placing_ships (p_grid, List.tl p_ship_list_to_place)
     )
@@ -237,7 +241,7 @@ let rec auto_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list)
 *)
 let color_cell(p_x, p_y, p_params, p_color : int * int * t_params * Graphics.color) : unit =
   set_color(p_color);
-  fill_rect(p_x, p_y, p_params.grid_size, p_params.grid_size);
+  fill_rect(p_x + 1, p_y + 1, p_params.grid_size - 2, p_params.grid_size - 2);
 ;;
 
 (** [cell_to_pixel(p_cell, p_params)] convertit une cellule logique de la grille en coordonnées
@@ -264,11 +268,26 @@ let cell_to_pixel(p_cell, p_params : t_cell * t_params) : int * int =
     @author Maël Icapi
 *)
 let display_grid (p_grid : t_grid) : unit =
-  for i = 0 to Array.length p_grid - 1 do
-    for j = 0 to Array.length p_grid.(i) - 1 do
-      if p_grid.(i).(j).ship <> None then
+  for i = 0 to 9 do
+    for j = 0 to 9 do
+      if p_grid.(i).(j).stat = UNKNOWN then
         let (px, py) = cell_to_pixel(p_grid.(i).(j), init_params()) in
-        color_cell(px, py, init_params(), black)
+        color_cell(px, py, init_params(), white)
+      else
+        if p_grid.(i).(j).stat = EMPTY then
+          let (px, py) = cell_to_pixel(p_grid.(i).(j), init_params()) in
+          color_cell(px, py, init_params(), blue)
+        else 
+          if p_grid.(i).(j).stat = HIT then
+            let (px, py) = cell_to_pixel(p_grid.(i).(j), init_params()) in
+            color_cell(px, py, init_params(), orange)
+          else 
+            if p_grid.(i).(j).stat = DESTROYED then
+            let (px, py) = cell_to_pixel(p_grid.(i).(j), init_params()) in
+            color_cell(px, py, init_params(), red)
+            else
+              let (px, py) = cell_to_pixel(p_grid.(i).(j), init_params()) in
+            color_cell(px, py, init_params(), green)
     done
   done
 ;;
@@ -283,10 +302,10 @@ let display_grid (p_grid : t_grid) : unit =
     @author Maël Icapi
 *)
 let create_computer_grid (p_params : t_params) : t_grid =
-  let p_grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None} in
+  let p_grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None; stat = UNKNOWN} in
   for i = 0 to 9 do
     for j = 0 to 9 do
-      p_grid.(i).(j) <- {x = i * 24; y = j * 24; ship = None}
+      p_grid.(i).(j) <- {x = i * 24; y = j * 24; ship = None; stat = UNKNOWN}
     done
   done;
   let ships_to_place = [
@@ -309,7 +328,7 @@ let create_computer_grid (p_params : t_params) : t_grid =
  *)
 let rec display_message(p_ship_list, p_params : t_ship list * t_params): unit =
 set_color(white);
-fill_rect(p_params.margin, p_params.margin, p_params.window_width - 2 * p_params.margin, p_params.message_size);
+fill_rect(p_params.margin + 1, p_params.margin + 1, (p_params.window_width - 2 * p_params.margin) - 2, p_params.message_size - 2);
 moveto(p_params.margin + 2, p_params.margin + p_params.message_size - p_params.cell_size);
   if p_ship_list = [] then ()
   else 
@@ -362,15 +381,15 @@ let which_grid (p_params : t_params) (x : int) (y : int) : int =
   let (x, y) = wait_button_down () in
   let message = Printf.sprintf "Position de la souris: (%d, %d)" x y in
   Graphics.set_color Graphics.white;
-  Graphics.fill_rect 
-    p_params.margin 
-    (p_params.margin) 
-    (p_params.window_width - 2 * p_params.margin) 
-    p_params.message_size;
+  Graphics.fill_rect
+    (0)
+    (0)
+    (p_params.window_width)
+    (p_params.margin - 1);
   Graphics.set_color Graphics.black;
   Graphics.moveto 
-    (p_params.margin + 2) 
-    (p_params.window_height - p_params.margin - p_params.message_size + 2);
+    (1) 
+    (0);
   Graphics.draw_string message;
   (which_grid p_params x y, (x, y))
   ;;
@@ -393,7 +412,7 @@ let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t
         y = (p_mouse_y - (p_params.margin + p_params.message_size)) / p_params.grid_size
       } in
       set_color white;
-      fill_rect (p_params.margin, p_params.margin, p_params.window_width - 2 * p_params.margin, p_params.message_size);
+      fill_rect(p_params.margin + 1, p_params.margin + 1, (p_params.window_width - 2 * p_params.margin) - 2, p_params.message_size - 2);
       moveto (p_params.margin + 2, p_params.margin + p_params.message_size - p_params.cell_size);
       set_color black;
       draw_string "Cliquez sur une case adjacente pour orienter le bateau";
@@ -405,9 +424,9 @@ let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t
       else if new_grid_x = updated_ship.x - 1 && new_grid_y = updated_ship.y then
         { updated_ship with direction = 3 }  (* gauche *)
       else if new_grid_x = updated_ship.x && new_grid_y = updated_ship.y + 1 then
-        { updated_ship with direction = 0 }  (* bas *)
+        { updated_ship with direction = 0 }  (* haut *)
       else if new_grid_x = updated_ship.x && new_grid_y = updated_ship.y - 1 then
-        { updated_ship with direction = 2 }  (* haut *)
+        { updated_ship with direction = 2 }  (* bas *)
       else
         updated_ship
 ;;    
@@ -438,7 +457,7 @@ let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t
             List.iter (fun (x, y) ->
               let old_cell = p_grid.(y).(x) in
               (* Mettre à jour la cellule avec le bateau *)
-              p_grid.(y).(x) <- { old_cell with ship = Some updated_ship }
+              p_grid.(y).(x) <- { old_cell with ship = Some updated_ship ; stat = PLAYER }
             ) positions;
             display_grid p_grid; (* Afficher la grille après placement *)
             manual_placing_ships (p_grid, List.tl p_ship_list_to_place)
@@ -472,12 +491,12 @@ let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t
     @author Marius Roumy
 *)
 let create_player_grid (p_params : t_params) : t_grid =
-  let p_grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None} in
+  let p_grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None; stat = UNKNOWN} in
   for i = 0 to 9 do
     for j = 0 to 9 do
       p_grid.(i).(j) <- {x = i * 24 + (p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin;
        y = j * 24 + p_params.margin + p_params.message_size; 
-       ship = None}
+       ship = None; stat = UNKNOWN}
     done
   done;
   let ships_to_place = [
