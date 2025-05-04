@@ -365,8 +365,8 @@ let which_grid (p_params : t_params) (x : int) (y : int) : int =
   if x >= p_params.margin + p_params.grid_size && x <= p_params.margin + p_params.grid_size * 10
     && y >= p_params.margin + p_params.message_size && y <= p_params.margin + p_params.message_size + p_params.grid_size * 10 then 0
   else if x >= (p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin + p_params.grid_size &&
-          x <= (p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin + p_params.grid_size * 10 &&
-          y >= p_params.margin + p_params.message_size && y <= p_params.margin + p_params.message_size + p_params.grid_size * 10 then 1
+          x <= (p_params.window_width / 2) - (p_params.margin / 2) + p_params.margin + p_params.grid_size * 11 &&
+          y >= p_params.margin + p_params.message_size && y <= p_params.margin + p_params.message_size + p_params.grid_size * 11 then 1
   else 2
 ;;
 
