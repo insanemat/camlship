@@ -6,6 +6,31 @@ Maêl ICAPI
 Sarah FAVRE
 Anne Celia MENSAH
 
+Participant à l'Etape de conception de l'itération 2 : 
+ROUMY Marius
+Maêl ICAPI
+Sarah FAVRE
+Anne Celia MENSAH
+
+Participant à l'Etape de conception de l'itération 3 : 
+ROUMY Marius
+Maêl ICAPI
+Sarah FAVRE
+Anne Celia MENSAH
+
+Participant à l'Etape de conception de l'itération 4 : 
+ROUMY Marius
+Maêl ICAPI
+Sarah FAVRE
+Anne Celia MENSAH
+
+
+Iteration 1, 2 sont terminé
+Itération 3 a un probleme d'affichage
+Itération 4 n'est pas fini
+
+
+
 - modifier t_cell pour ajouter un type énuméré pour rajouter un état aux cases (inconnu; vide (=ship none); touché; touché coulé)
 - modifier display_grid pour afficher les bonnes couleurs (blanc = inconnu, bleu = vide, orange = touché... )
 - find_ship(p_grid : t_grid) : t_ship list = 
