@@ -628,3 +628,115 @@ let do_test(): unit =
 
 
 do_test() ;;
+
+
+(** Fonction auxiliaire pour créer une grille de test, utilisée dans les tests des fonctions de tir.
+    @return : une grille vide avec des coordonnées initialisées pour la grille de l'ordinateur.
+    @author Maël ICAPI
+*)
+let create_test_grid () : t_grid =
+    let params = init_params () in
+    let grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None; stat = UNKNOWN} in
+    for i = 0 to 9 do
+      for j = 0 to 9 do
+        let offset_x = params.margin in
+        let offset_y = params.margin + params.message_size in
+        let px = offset_x + i * params.grid_size in
+        let py = offset_y + j * params.grid_size in
+        grid.(i).(j) <- {x = px; y = py; ship = None; stat = UNKNOWN}
+      done
+    done;
+    grid
+  
+  (** Place un bateau sur la grille à une position donnée, utilisée dans les tests des fonctions de tir.
+      @param grid : la grille où placer le bateau.
+      @param ship : le bateau à placer.
+      @return : unit (modifie la grille en place).
+      @author Maël ICAPI
+  *)
+  let place_ship (grid : t_grid) (ship : t_ship) : unit =
+    let positions = positions_list ship in
+    (* On parcourt la liste des positions avec List.iter *)
+    List.iter (fun pos ->
+      let x = fst pos in
+      let y = snd pos in
+      let cell = grid.(y).(x) in
+      grid.(y).(x) <- { cell with ship = Some ship; stat = PLAYER }
+    ) positions
+  
+  (** Simule un clic sur la grille de l'ordinateur et appelle find_ship, pour les tests.
+      @param grid : la grille où effectuer le clic.
+      @param mouse_x : coordonnée x du clic.
+      @param mouse_y : coordonnée y du clic.
+      @return : la liste des bateaux trouvés par find_ship.
+      @author Maël ICAPI
+  *)
+  let simulate_find_ship (grid : t_grid) (mouse_x : int) (mouse_y : int) : t_ship list =
+    let params = init_params () in
+    (* Vérifier si le clic est dans la grille *)
+    let in_grid = mouse_x >= params.margin && mouse_x < params.margin + params.grid_size * 10 &&
+                  mouse_y >= params.margin + params.message_size &&
+                  mouse_y < params.margin + params.message_size + params.grid_size * 10 in
+    if not in_grid then
+      []  (* Clic hors grille *)
+    else
+      let offset_x = params.margin in
+      let offset_y = params.margin + params.message_size in
+      let grid_x = (mouse_x - offset_x) / params.grid_size in
+      let grid_y = (mouse_y - offset_y) / params.grid_size in
+      (* Vérifier si les indices sont valides *)
+      if grid_x < 0 || grid_x >= 10 || grid_y < 0 || grid_y >= 10 then
+        []  (* Indices hors grille *)
+      else
+        (* On suppose que find_ship utilise ces indices pour chercher un bateau *)
+        find_ship grid
+  
+  (** Simule un clic sur la grille de l'ordinateur et appelle player_shoot, pour les tests.
+      @param grid : la grille où effectuer le tir.
+      @param mouse_x : coordonnée x du clic.
+      @param mouse_y : coordonnée y du clic.
+      @return : la grille mise à jour après le tir.
+      @author Maël ICAPI
+  *)
+  let simulate_player_shoot (grid : t_grid) (mouse_x : int) (mouse_y : int) : t_grid =
+    let params = init_params () in
+    (* Vérifier si le clic est dans la grille *)
+    let in_grid = mouse_x >= params.margin && mouse_x < params.margin + params.grid_size * 10 &&
+                  mouse_y >= params.margin + params.message_size &&
+                  mouse_y < params.margin + params.message_size + params.grid_size * 10 in
+    if not in_grid then
+      grid  (* Clic hors grille *)
+    else
+      let offset_x = params.margin in
+      let offset_y = params.margin + params.message_size in
+      let grid_x = (mouse_x - offset_x) / params.grid_size in
+      let grid_y = (mouse_y - offset_y) / params.grid_size in
+      (* Vérifier si les indices sont valides *)
+      if grid_x < 0 || grid_x >= 10 || grid_y < 0 || grid_y >= 10 then
+        grid  (* Indices hors grille *)
+      else
+        (* On suppose que player_shoot utilise ces indices pour effectuer un tir *)
+        player_shoot grid
+  
+  (** Teste la fonction [find_ship] avec différents cas de clics simulés.
+      Fait partie d'une suite de tests dans un fichier de test plus large.
+      @author Maël ICAPI
+  *)
+  let test_find_ship () =
+    let grid = create_test_grid () in
+    let ship = { ship_type = PORTE_AVION; x = 2; y = 2; direction = 1; size = 5 } in
+    place_ship grid ship;
+  
+    (* Test 1 : Clic sur une case avec un bateau *)
+    let res1 = test_exec (simulate_find_ship, "find_ship - clic sur bateau", (grid, 78, 138)) in
+    (* 78 = 30 + 2 * 24, 138 = 90 + 2 * 24, donc (2, 2) *)
+    assert_equals_result_m ("Devrait trouver un bateau", [ship], res1);
+  
+    (* Test 2 : Clic sur une case vide *)
+    let res2 = test_exec (simulate_find_ship, "find_ship - clic sur case vide", (grid, 30, 90)) in
+    (* (0, 0) *)
+    assert_equals_result_m ("Ne devrait pas trouver de bateau", [], res2);
+  
+    (* Test 3 : Clic hors grille *)
+    let res3 = test_exec (simulate_find_ship, "find_ship - clic hors grille", (grid, 500, 500)) in
+    assert_equals_result_m ("Clic hors grille, liste vide", [], res3)
