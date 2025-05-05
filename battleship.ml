@@ -6,9 +6,11 @@
 
 @version 1.0
 *)
+
 #use "topfind";;
 #require "graphics";;
 #require "unix";;
+
 open Random;;
 open Graphics;;
 #mod_use "CPgraphics.ml" ;;
