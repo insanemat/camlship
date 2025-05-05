@@ -10,16 +10,19 @@
 #use "topfind";;
 #require "graphics";;
 #require "unix";;
+
 open Random;;
 open Graphics;;
 #mod_use "CPgraphics.ml" ;;
 open CPgraphics;;
 (**
-Détermine le type de bateau    
+Détermine le type de bateau 
+@author Marius Roumy   
 *)
 type t_ship_type = PORTE_AVION | CROISEUR | CONTRE_TORPILLEUR | TORPILLEUR;;
 
 (** Détermine le type de l'état d'une case 
+@author Marius Roumy
 *)
 type t_cell_stat = UNKNOWN | EMPTY | HIT | DESTROYED | PLAYER ;;
 
@@ -33,7 +36,10 @@ Détermine la taille de allouée à chaque type de bateau
 *)
 type t_ship_size = t_ship_type * int;;
 
-(*Représente la position graphique d'une cellule et le bateau qu'elle contient*)
+(**
+Représente la position graphique d'une cellule et le bateau qu'elle contient
+@author Marius Roumy
+*)
 type t_cell = {x : int; y : int; ship : t_ship option ; stat : t_cell_stat} ;;
 
 (**
@@ -214,6 +220,7 @@ let can_place_ship(p_current_grid, p_ship_to_place : t_grid * t_ship) : bool =
 (** 
   Place automatiquement tous les bateaux dans la grille en respectant les règles.
   @author Maël Icapi
+  @author Marius Roumy
   @param p_grid La grille initiale.
   @return Une grille avec tous les bateaux placés.
 *)
@@ -240,6 +247,7 @@ let rec auto_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list)
    @param p_params les paramètres de la partie
    @param p_color la couleur désirée
    @author Anne Celia Mensah 
+   @author Marius Roumy
 *)
 let color_cell(p_x, p_y, p_params, p_color : int * int * t_params * Graphics.color) : unit =
   set_color(p_color);
@@ -268,6 +276,7 @@ let cell_to_pixel(p_cell, p_params : t_cell * t_params) : int * int =
     @param p_grid : la grille de type [t_grid] à afficher.
     @return unit (effet de bord : dessine à l’écran).
     @author Maël Icapi
+    @author Marius Roumy
 *)
 let display_grid (p_grid : t_grid) : unit =
   for i = 0 to 9 do
@@ -302,6 +311,7 @@ let display_grid (p_grid : t_grid) : unit =
     @param p_params : les paramètres graphiques nécessaires à l’affichage.
     @return une grille [t_grid] avec des bateaux placés aléatoirement.
     @author Maël Icapi
+    @author Marius Roumy
 *)
 let create_computer_grid (p_params : t_params) : t_grid =
   let p_grid = Array.make_matrix 10 10 {x = 0; y = 0; ship = None; stat = UNKNOWN} in
@@ -376,7 +386,7 @@ let which_grid (p_params : t_params) (x : int) (y : int) : int =
 (**
  * Attend un clic utilisateur, affiche la position cliquée dans la fenêtre graphique,
  * et renvoie la grille cliquée ainsi que les coordonnées du clic.
- *
+ *@author Marius Roumy
  * @param p_params Les paramètres de la fenêtre graphique.
  * @return Un couple (identifiant de grille, (x, y)) correspondant à l'endroit du clic.
  *)
@@ -407,7 +417,7 @@ let which_grid (p_params : t_params) (x : int) (y : int) : int =
  * @param p_params Les paramètres d'affichage.
  * @return Le bateau mis à jour avec ses coordonnées et sa direction définie.
  * @author Maël Icapi
- *
+ * @author Marius Roumy
  *)
 let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t_ship =
       let p_mouse_x, p_mouse_y = wait_button_down () in
@@ -444,6 +454,7 @@ let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t
  * @param p_ship_list_to_place La liste des bateaux à placer.
  * @return La grille mise à jour avec tous les bateaux correctement placés.
  * @author Maël Icapi
+   @author Marius Roumy
  *)
     let rec manual_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list) : t_grid =
       let params = init_params() in
@@ -554,9 +565,6 @@ et effectuer les affichages adéquates.
 @author Marius Roumy
 @return unit
 *)
-
-
-
 let battleship_game(): unit =
   let l_params : t_params = init_params() in
   display_empty_grids(l_params);

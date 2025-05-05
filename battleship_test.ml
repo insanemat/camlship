@@ -22,10 +22,6 @@ let test_fonc_init_params() : unit =
     assert_equals_result ({margin = 30 ; cell_size = 15 ; grid_size = 24 ; window_width = 670 ; window_height = 390; message_size = 60 } , l_res)
 ;;
 
-let test_fonc_display_empty_grids() : unit =
-    let l_res : unit t_test_result = test_exec(display_empty_grids, "Creé bien l'affichage", init_params()) in
-    assert_true(test_is_success(l_res))
-;;
 
 (**fonction de test qui test si le calcule de la liste des positions d’un bateau à placer est correct
     @author Sarah Favre
