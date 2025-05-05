@@ -517,6 +517,24 @@ let create_player_grid (p_params : t_params) : t_grid =
 ;;
 
 
+     
+(** Fonction qui vérifie si une coordonnée appartient à un bateau 
+@author Anne-Celia Mensah
+*)
+let rec appartient (coord : int * int) (ships : t_ship list) : bool =
+  if ships = [] then false
+  else
+    let ship = List.hd ships in
+    if (ship.x = fst coord) && (ship.y = snd coord) then true
+    else appartient coord (List.tl ships);;
+ 
+  let rec find_ship (coord : int * int) (ships : t_ship list list) : t_ship list =
+  if ships = [] then []  (* Retourne une liste vide si aucun bateau n'est trouvé *)
+  else
+    let ship = List.hd ships in
+    if appartient coord ship then ship
+    else find_ship coord (List.tl ships);;
+
 (** permet de créer et afficher les grilles de jeu
   @author Maël Icapi
   @author Marius Roumy
