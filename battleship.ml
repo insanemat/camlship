@@ -6,6 +6,7 @@
 
 @version 1.0
 *)
+
 #use "topfind";;
 #require "graphics";;
 #require "unix";;
@@ -168,6 +169,7 @@ let display_empty_grids (p_params : t_params) : unit =
   Génère une position aléatoire pour un bateau donné.
   @param p_ship Le bateau à positionner.
   @return Un nouveau bateau avec une position et direction aléatoire.
+  @author Anne-Celia Mensah
 *)
 let generate_random_position(p_ship : t_ship) : t_ship =
 let new_ship : t_ship = {ship_type = p_ship.ship_type; x = Random.int(10); y = Random.int(10); direction = Random.int(2); size = p_ship.size} in 
@@ -322,7 +324,7 @@ let create_computer_grid (p_params : t_params) : t_grid =
 (** 
  * Affiche un message d'instruction pour placer un bateau sur le plateau.
  * Le message dépend du type du bateau en tête de la liste.
- *
+ * @author Marius Roumy
  * @param p_ship_list La liste des bateaux à placer.
  * @param p_params Les paramètres d'affichage (dimensions de la fenêtre, marges, etc.).
  *)
@@ -360,6 +362,7 @@ moveto(p_params.margin + 2, p_params.margin + p_params.message_size - p_params.c
  * @param x Coordonnée X du clic.
  * @param y Coordonnée Y du clic.
  * @return 0 si clic sur la grille de gauche, 1 si clic sur la grille de droite, 2 sinon.
+ * @author Marius Roumy
  *)
 let which_grid (p_params : t_params) (x : int) (y : int) : int =
   if x >= p_params.margin + p_params.grid_size && x <= p_params.margin + p_params.grid_size * 10
@@ -403,6 +406,8 @@ let which_grid (p_params : t_params) (x : int) (y : int) : int =
  * @param p_ship Le bateau à placer.
  * @param p_params Les paramètres d'affichage.
  * @return Le bateau mis à jour avec ses coordonnées et sa direction définie.
+ * @author Maël Icapi
+ *
  *)
 let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t_ship =
       let p_mouse_x, p_mouse_y = wait_button_down () in
@@ -438,6 +443,7 @@ let choose_direction (p_grid, p_ship, p_params : t_grid * t_ship * t_params) : t
  * @param p_grid La grille actuelle de jeu.
  * @param p_ship_list_to_place La liste des bateaux à placer.
  * @return La grille mise à jour avec tous les bateaux correctement placés.
+ * @author Maël Icapi
  *)
     let rec manual_placing_ships (p_grid, p_ship_list_to_place : t_grid * t_ship list) : t_grid =
       let params = init_params() in
